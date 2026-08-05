@@ -1065,8 +1065,7 @@ h1 {
   transition:
     top 0.95s cubic-bezier(0.22, 1, 0.36, 1),
     left 0.95s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.95s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.55s ease;
+    transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .portfolio-ready .website-shot:nth-child(1) {
@@ -1081,7 +1080,7 @@ h1 {
   z-index: 3;
   top: 2%;
   left: 5%;
-  opacity: 0.94;
+  opacity: 1;
   transform: rotate(-3deg) scale(0.985);
 }
 
@@ -1089,7 +1088,7 @@ h1 {
   z-index: 2;
   top: 9%;
   left: 10%;
-  opacity: 0.84;
+  opacity: 1;
   transform: rotate(3deg) scale(0.97);
 }
 
@@ -1097,7 +1096,7 @@ h1 {
   z-index: 1;
   top: 16%;
   left: 15%;
-  opacity: 0.7;
+  opacity: 1;
   filter: blur(0) drop-shadow(0 20px 17px rgba(22, 28, 46, 0.14));
   transform: rotate(8deg) scale(0.955);
 }
@@ -1114,7 +1113,7 @@ h1 {
   z-index: 5;
   top: -1%;
   left: 16%;
-  opacity: 0.92;
+  opacity: 1;
   transform: rotate(-5deg) scale(0.975);
 }
 
@@ -1122,7 +1121,7 @@ h1 {
   z-index: 4;
   top: 5%;
   left: 32%;
-  opacity: 0.84;
+  opacity: 1;
   filter: blur(0) drop-shadow(0 20px 17px rgba(22, 28, 46, 0.14));
   transform: rotate(1deg) scale(0.95);
 }
@@ -1131,7 +1130,7 @@ h1 {
   z-index: 3;
   top: 11%;
   left: 48%;
-  opacity: 0.75;
+  opacity: 1;
   transform: rotate(7deg) scale(0.925);
 }
 
@@ -1139,7 +1138,7 @@ h1 {
   z-index: 2;
   top: 17%;
   left: 64%;
-  opacity: 0.64;
+  opacity: 1;
   transform: rotate(13deg) scale(0.9);
 }
 
@@ -1147,21 +1146,21 @@ h1 {
   z-index: 1;
   top: 23%;
   left: 80%;
-  opacity: 0.52;
+  opacity: 1;
   filter: blur(0) drop-shadow(0 16px 14px rgba(22, 28, 46, 0.12));
   transform: rotate(19deg) scale(0.875);
 }
 
 .portfolio-ready .website-shot.is-lifting {
   z-index: 10;
-  opacity: 0.18;
+  opacity: 1;
   filter: blur(0) drop-shadow(0 30px 28px rgba(0, 0, 0, 0.24));
   transform: translate3d(-11%, -13%, 0) rotate(-13deg) scale(0.96);
 }
 
 .portfolio-ready .phone-shot.is-lifting {
   z-index: 10;
-  opacity: 0.18;
+  opacity: 1;
   filter: blur(0) drop-shadow(0 30px 28px rgba(0, 0, 0, 0.24));
   transform: translate3d(13%, -10%, 0) rotate(8deg) scale(0.94);
 }
