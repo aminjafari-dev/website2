@@ -1,11 +1,11 @@
 :root {
-  --ink: #15171b;
-  --muted: #777b83;
-  --paper: #fbfcff;
-  --page: #e9ecf1;
-  --blue: #093cd7;
-  --pink: #f595ac;
-  --orange: #ff4c1e;
+  --ink: #f7f8fb;
+  --muted: #9ba3b5;
+  --paper: #0b0e16;
+  --page: #05070b;
+  --blue: #5d7cff;
+  --pink: #b85cff;
+  --orange: #42e8c5;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -46,10 +46,10 @@ a {
   min-height: min(90svh, 940px);
   overflow: hidden;
   background:
-    radial-gradient(circle at 92% 82%, rgba(247, 157, 184, 0.14), transparent 27%),
-    radial-gradient(circle at 55% 4%, rgba(255, 255, 255, 0.98), transparent 35%),
-    linear-gradient(128deg, #fbfcff 0%, #f8f9fc 52%, #fff 100%);
-  box-shadow: 0 34px 85px rgba(59, 66, 82, 0.12);
+    radial-gradient(circle at 82% 12%, rgba(82, 89, 255, 0.18), transparent 31%),
+    radial-gradient(circle at 12% 82%, rgba(23, 211, 185, 0.08), transparent 26%),
+    linear-gradient(128deg, #090c13 0%, #0c1019 53%, #070910 100%);
+  box-shadow: 0 34px 85px rgba(0, 0, 0, 0.36);
   opacity: 0;
   transform: scale(0.94);
   transform-origin: 50% 50%;
@@ -60,7 +60,7 @@ a {
   position: absolute;
   inset: 0;
   z-index: 30;
-  background: #f6f8fb;
+  background: #080b11;
   content: "";
   pointer-events: none;
   animation: veil-away 0.9s 0.08s var(--ease-out) forwards;
@@ -94,9 +94,16 @@ a {
 }
 
 .brand-mark {
-  font-size: 17px;
-  font-weight: 400;
+  display: grid;
+  width: 23px;
+  height: 23px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 7px;
+  color: #79ffe2;
+  font-size: 12px;
+  font-weight: 700;
   line-height: 1;
+  place-items: center;
 }
 
 .waitlist {
@@ -133,7 +140,7 @@ a {
   left: 35%;
   width: 32%;
   height: 24%;
-  background: rgba(255, 177, 198, 0.2);
+  background: rgba(91, 78, 255, 0.24);
 }
 
 .ambient-two {
@@ -141,7 +148,46 @@ a {
   bottom: -5%;
   width: 34%;
   height: 28%;
-  background: rgba(90, 105, 255, 0.1);
+  background: rgba(29, 222, 193, 0.12);
+}
+
+.circuit-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0.27;
+  background-image:
+    linear-gradient(rgba(109, 128, 164, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(109, 128, 164, 0.08) 1px, transparent 1px);
+  background-size: 74px 74px;
+  mask-image: radial-gradient(circle at 62% 44%, black, transparent 72%);
+}
+
+.circuit-grid::before,
+.circuit-grid::after {
+  position: absolute;
+  border: solid rgba(108, 255, 221, 0.28);
+  border-width: 1px 1px 0 0;
+  content: "";
+}
+
+.circuit-grid::before {
+  top: 18%;
+  right: 4%;
+  width: 41%;
+  height: 35%;
+  box-shadow:
+    74px 74px 0 -73px rgba(108, 255, 221, 0.3),
+    -148px 148px 0 -147px rgba(112, 126, 255, 0.35);
+}
+
+.circuit-grid::after {
+  bottom: 11%;
+  left: 8%;
+  width: 27%;
+  height: 21%;
+  transform: rotate(180deg);
 }
 
 .outline-card {
@@ -150,7 +196,7 @@ a {
   right: 2.3%;
   width: 17%;
   aspect-ratio: 1.58;
-  border: 1px solid rgba(24, 30, 45, 0.035);
+  border: 1px solid rgba(118, 133, 165, 0.08);
   border-radius: 13px;
   transform: rotate(90deg);
 }
@@ -161,7 +207,7 @@ a {
   top: 28%;
   right: -30%;
   width: 65%;
-  border-top: 1px solid rgba(24, 30, 45, 0.035);
+  border-top: 1px solid rgba(118, 133, 165, 0.08);
   content: "";
 }
 
@@ -176,7 +222,7 @@ a {
   top: 14%;
   right: -2%;
   width: 12%;
-  opacity: 0.08;
+  opacity: 0.16;
   transform: rotate(15deg);
 }
 
@@ -184,7 +230,7 @@ a {
   display: block;
   width: 100%;
   margin: 15px 0;
-  border-top: 1px solid #4a5262;
+  border-top: 1px solid #7686a7;
 }
 
 .speed-lines i:nth-child(2) {
@@ -551,7 +597,7 @@ a {
 .hero-copy {
   position: absolute;
   z-index: 11;
-  top: 56%;
+  top: 50%;
   left: 5.5%;
   width: 56%;
 }
@@ -561,19 +607,19 @@ a {
   gap: 13px;
   align-items: center;
   margin-bottom: clamp(22px, 3vw, 42px);
-  color: #858993;
+  color: #7f899e;
   font-size: clamp(6px, 0.52vw, 9px);
   font-weight: 500;
 }
 
 .spark {
-  color: #a6a9b0;
+  color: #69f3d5;
   font-size: 13px;
 }
 
 .eyebrow-rule {
   width: clamp(17px, 2vw, 32px);
-  border-top: 1px solid #d8d9dd;
+  border-top: 1px solid #3e4657;
 }
 
 .reveal-up {
@@ -584,7 +630,7 @@ a {
 
 h1 {
   margin: 0;
-  font-size: clamp(33px, 4.1vw, 67px);
+  font-size: clamp(33px, 3.85vw, 63px);
   font-weight: 400;
   letter-spacing: -0.062em;
   line-height: 1.06;
@@ -610,6 +656,70 @@ h1 {
 
 .line-mask strong {
   font-weight: 700;
+}
+
+.accent-dot {
+  color: #6cf4d7;
+}
+
+.hero-subtitle {
+  width: min(100%, 620px);
+  margin: clamp(18px, 2.2vw, 31px) 0 0;
+  color: var(--muted);
+  font-size: clamp(12px, 1.02vw, 16px);
+  line-height: 1.7;
+  animation-delay: 1.14s;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: clamp(20px, 2.3vw, 34px);
+  animation-delay: 1.25s;
+}
+
+.button {
+  display: inline-flex;
+  min-height: 48px;
+  padding: 0 22px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  font-size: clamp(10px, 0.82vw, 13px);
+  font-weight: 600;
+  transition:
+    transform 0.3s var(--ease-out),
+    border-color 0.3s ease,
+    background 0.3s ease;
+}
+
+.button:hover {
+  transform: translateY(-3px);
+}
+
+.button-primary {
+  color: #07100e;
+  background: #6cf4d7;
+  box-shadow: 0 12px 35px rgba(78, 237, 204, 0.16);
+}
+
+.button-primary:hover {
+  background: #89ffe7;
+}
+
+.button-secondary {
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #e8ebf2;
+  background: rgba(255, 255, 255, 0.035);
+  backdrop-filter: blur(10px);
+}
+
+.button-secondary:hover {
+  border-color: rgba(108, 244, 215, 0.45);
+  background: rgba(255, 255, 255, 0.07);
 }
 
 .asterisk {
@@ -640,7 +750,7 @@ h1 {
 .features {
   position: absolute;
   z-index: 12;
-  bottom: 6.2%;
+  bottom: 4.7%;
   left: 5.3%;
   display: flex;
   gap: clamp(28px, 5.2vw, 78px);
@@ -661,7 +771,7 @@ h1 {
   position: absolute;
   top: 13px;
   width: 10px;
-  border-top: 2px solid #1d222a;
+  border-top: 2px solid #dfe4ee;
   content: "";
 }
 
@@ -680,14 +790,14 @@ h1 {
   top: 1px;
   left: 11px;
   height: 15px;
-  border-left: 2px solid #1d222a;
+  border-left: 2px solid #dfe4ee;
 }
 
 .feature {
   display: flex;
   gap: 13px;
   align-items: center;
-  color: #3b3f47;
+  color: #929bad;
   font-size: clamp(7px, 0.71vw, 11px);
   font-weight: 500;
   line-height: 1.18;
@@ -716,22 +826,22 @@ h1 {
 
 .cut-corner {
   background:
-    linear-gradient(135deg, transparent 48%, #273142 49% 52%, transparent 53%),
-    linear-gradient(135deg, #e9ebef 0 50%, #a9afbb 50% 72%, #26304a 72%);
+    linear-gradient(135deg, transparent 48%, #63e9ce 49% 52%, transparent 53%),
+    linear-gradient(135deg, #262d3a 0 50%, #53677f 50% 72%, #66ead0 72%);
   clip-path: polygon(0 0, 76% 0, 100% 24%, 100% 100%, 0 100%);
 }
 
 .pinwheel {
   border-radius: 50%;
-  background: conic-gradient(#e4e6eb 0 12.5%, #9ca2ae 0 25%, #26304b 0 37.5%, #f1f2f5 0 50%, #b7bbc5 0 62.5%, #303950 0 75%, #e6e8ec 0 87.5%, #949ba8 0);
+  background: conic-gradient(#252d3b 0 12.5%, #7180ff 0 25%, #35405a 0 37.5%, #56e2c6 0 50%, #2a3344 0 62.5%, #6878ec 0 75%, #303a4b 0 87.5%, #69e6cd 0);
 }
 
 .triangles {
   background:
-    linear-gradient(45deg, #263047 0 50%, transparent 50%) 0 0 / 50% 50%,
-    linear-gradient(135deg, #a9aeb8 0 50%, transparent 50%) 100% 0 / 50% 50%,
-    linear-gradient(225deg, #2d3547 0 50%, transparent 50%) 100% 100% / 50% 50%,
-    linear-gradient(315deg, #d7d9de 0 50%, transparent 50%) 0 100% / 50% 50%;
+    linear-gradient(45deg, #6879ee 0 50%, transparent 50%) 0 0 / 50% 50%,
+    linear-gradient(135deg, #3d495e 0 50%, transparent 50%) 100% 0 / 50% 50%,
+    linear-gradient(225deg, #64e7cd 0 50%, transparent 50%) 100% 100% / 50% 50%,
+    linear-gradient(315deg, #2d3547 0 50%, transparent 50%) 0 100% / 50% 50%;
   background-repeat: no-repeat;
 }
 
@@ -1159,7 +1269,7 @@ h1 {
   }
 
   .hero {
-    min-height: 100svh;
+    min-height: max(100svh, 1000px);
     box-shadow: none;
   }
 
@@ -1184,6 +1294,10 @@ h1 {
     top: 58%;
     left: 7%;
     width: 86%;
+  }
+
+  .hero-subtitle {
+    max-width: calc(100vw - 56px);
   }
 
   .eyebrow {
@@ -1233,7 +1347,7 @@ h1 {
   }
 
   .hero-copy {
-    top: 54%;
+    top: 58%;
   }
 
   h1 {
@@ -1253,12 +1367,16 @@ h1 {
   .features {
     right: 5%;
     bottom: 4.2%;
-    justify-content: space-between;
+    display: grid;
+    width: auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 9px;
   }
 
   .feature {
     gap: 5px;
-    font-size: 6px;
+    min-width: 0;
+    font-size: 5.5px;
   }
 
   .feature-icon {
