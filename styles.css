@@ -1046,14 +1046,14 @@ h1 {
 .shot-fitness {
   z-index: 4;
   top: -1%;
-  left: 23%;
+  left: 16%;
   animation: phone-fitness-in 1.42s 0.39s var(--ease-out) forwards;
 }
 
 .shot-finance {
   z-index: 3;
   top: 5%;
-  left: 46%;
+  left: 32%;
   animation: phone-finance-in 1.48s 0.5s var(--ease-out) forwards;
 }
 
@@ -1103,7 +1103,7 @@ h1 {
 }
 
 .portfolio-ready .phone-shot:nth-child(1) {
-  z-index: 5;
+  z-index: 6;
   top: -7%;
   left: 0;
   opacity: 1;
@@ -1111,20 +1111,45 @@ h1 {
 }
 
 .portfolio-ready .phone-shot:nth-child(2) {
-  z-index: 4;
+  z-index: 5;
   top: -1%;
-  left: 23%;
-  opacity: 0.9;
+  left: 16%;
+  opacity: 0.92;
   transform: rotate(-5deg) scale(0.975);
 }
 
 .portfolio-ready .phone-shot:nth-child(3) {
-  z-index: 3;
+  z-index: 4;
   top: 5%;
-  left: 46%;
-  opacity: 0.78;
+  left: 32%;
+  opacity: 0.84;
   filter: blur(0) drop-shadow(0 20px 17px rgba(22, 28, 46, 0.14));
   transform: rotate(1deg) scale(0.95);
+}
+
+.portfolio-ready .phone-shot:nth-child(4) {
+  z-index: 3;
+  top: 11%;
+  left: 48%;
+  opacity: 0.75;
+  transform: rotate(7deg) scale(0.925);
+}
+
+.portfolio-ready .phone-shot:nth-child(5) {
+  z-index: 2;
+  top: 17%;
+  left: 64%;
+  opacity: 0.64;
+  transform: rotate(13deg) scale(0.9);
+}
+
+.portfolio-ready .phone-shot:nth-child(6) {
+  z-index: 1;
+  top: 23%;
+  left: 80%;
+  opacity: 0.52;
+  filter: blur(0) drop-shadow(0 16px 14px rgba(22, 28, 46, 0.12));
+  transform: rotate(19deg) scale(0.875);
 }
 
 .portfolio-ready .website-shot.is-lifting {
@@ -1143,16 +1168,23 @@ h1 {
 
 .shot-swap {
   z-index: 2;
-  top: 10%;
-  left: 54%;
+  top: 11%;
+  left: 48%;
   animation: phone-swap-in 1.52s 0.6s var(--ease-out) forwards;
 }
 
 .shot-report {
   z-index: 1;
   top: 17%;
-  left: 72%;
+  left: 64%;
   animation: phone-report-in 1.56s 0.69s var(--ease-out) forwards;
+}
+
+.shot-security {
+  z-index: 0;
+  top: 23%;
+  left: 80%;
+  animation: phone-security-in 1.6s 0.8s var(--ease-out) forwards;
 }
 
 .foreground-card.foreground-phone {
@@ -1328,6 +1360,24 @@ h1 {
     opacity: 1;
     filter: blur(0) drop-shadow(0 25px 20px rgba(22, 28, 46, 0.16));
     transform: rotate(13deg);
+  }
+}
+
+@keyframes phone-security-in {
+  0% {
+    opacity: 0;
+    filter: blur(14px) drop-shadow(0 25px 20px rgba(22, 28, 46, 0.14));
+    transform: translate3d(64vw, -2vh, 0) rotate(31deg) scale(0.72);
+  }
+  66% {
+    opacity: 1;
+    filter: blur(0) drop-shadow(0 25px 20px rgba(22, 28, 46, 0.14));
+    transform: translate3d(-2%, 0, 0) rotate(17deg) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0) drop-shadow(0 25px 20px rgba(22, 28, 46, 0.14));
+    transform: rotate(19deg);
   }
 }
 
@@ -1565,11 +1615,23 @@ h1 {
   }
 
   .shot-fitness {
-    left: 20%;
+    left: 14%;
   }
 
   .shot-finance {
-    left: 40%;
+    left: 28%;
+  }
+
+  .shot-swap {
+    left: 42%;
+  }
+
+  .shot-report {
+    left: 56%;
+  }
+
+  .shot-security {
+    left: 70%;
   }
 
   .portfolio-ready .website-shot:nth-child(1) {
@@ -1589,11 +1651,23 @@ h1 {
   }
 
   .portfolio-ready .phone-shot:nth-child(2) {
-    left: 20%;
+    left: 14%;
   }
 
   .portfolio-ready .phone-shot:nth-child(3) {
-    left: 40%;
+    left: 28%;
+  }
+
+  .portfolio-ready .phone-shot:nth-child(4) {
+    left: 42%;
+  }
+
+  .portfolio-ready .phone-shot:nth-child(5) {
+    left: 56%;
+  }
+
+  .portfolio-ready .phone-shot:nth-child(6) {
+    left: 70%;
   }
 
   .wallet-card {
@@ -1685,19 +1759,43 @@ h1 {
   }
 
   .shot-fitness {
-    left: 17%;
+    left: 11%;
   }
 
   .shot-finance {
-    left: 34%;
+    left: 22%;
+  }
+
+  .shot-swap {
+    left: 33%;
+  }
+
+  .shot-report {
+    left: 44%;
+  }
+
+  .shot-security {
+    left: 55%;
   }
 
   .portfolio-ready .phone-shot:nth-child(2) {
-    left: 17%;
+    left: 11%;
   }
 
   .portfolio-ready .phone-shot:nth-child(3) {
-    left: 34%;
+    left: 22%;
+  }
+
+  .portfolio-ready .phone-shot:nth-child(4) {
+    left: 33%;
+  }
+
+  .portfolio-ready .phone-shot:nth-child(5) {
+    left: 44%;
+  }
+
+  .portfolio-ready .phone-shot:nth-child(6) {
+    left: 55%;
   }
 
   .hero-copy {

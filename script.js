@@ -67,7 +67,7 @@ function startPortfolioCycle() {
   readyTimer = window.setTimeout(() => {
     scene.classList.add("portfolio-ready");
     cycleTimer = window.setInterval(rotatePortfolio, 3200);
-  }, 2200);
+  }, 2600);
 }
 
 function restoreStackOrder() {
