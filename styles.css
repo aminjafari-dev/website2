@@ -923,18 +923,111 @@ h1 {
   transform: rotate(13deg);
 }
 
-.phone-scene {
-  top: 1%;
-  left: 27%;
-  width: 67%;
-  height: 59%;
+.portfolio-scene {
+  top: 1.5%;
+  left: 4%;
+  width: 92%;
+  height: 54%;
   filter: none;
+}
+
+.website-stack,
+.phone-stack {
+  position: absolute;
+  inset: 0;
+}
+
+.website-stack {
+  z-index: 2;
+}
+
+.phone-stack {
+  z-index: 8;
+  left: 58%;
+  width: 42%;
+}
+
+.website-shot {
+  position: absolute;
+  width: 48%;
+  aspect-ratio: 1.78;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: clamp(9px, 1.1vw, 18px);
+  background: #121722;
+  box-shadow:
+    0 25px 45px rgba(0, 0, 0, 0.32),
+    0 2px 0 rgba(255, 255, 255, 0.08) inset;
+  opacity: 0;
+  filter: blur(12px);
+  transform: translate3d(-58vw, -12vh, 0) rotate(-18deg) scale(0.8);
+  transform-origin: 48% 50%;
+  will-change: transform, filter, opacity;
+}
+
+.website-shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.browser-bar {
+  position: absolute;
+  z-index: 2;
+  top: 7px;
+  left: 9px;
+  display: flex;
+  gap: 3px;
+  padding: 5px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 20px;
+  background: rgba(7, 10, 16, 0.52);
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(8px);
+}
+
+.browser-bar i {
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.website-house {
+  z-index: 4;
+  top: -5%;
+  left: 0;
+  animation: website-house-in 1.38s 0.24s var(--ease-out) forwards;
+}
+
+.website-tennis {
+  z-index: 3;
+  top: 2%;
+  left: 5%;
+  animation: website-tennis-in 1.43s 0.35s var(--ease-out) forwards;
+}
+
+.website-studio {
+  z-index: 2;
+  top: 9%;
+  left: 10%;
+  animation: website-studio-in 1.48s 0.46s var(--ease-out) forwards;
+}
+
+.website-audio {
+  z-index: 1;
+  top: 16%;
+  left: 15%;
+  animation: website-audio-in 1.53s 0.57s var(--ease-out) forwards;
 }
 
 .phone-shot {
   position: absolute;
   width: auto;
-  height: 91%;
+  height: 88%;
   object-fit: contain;
   opacity: 0;
   filter: blur(13px) drop-shadow(0 25px 20px rgba(22, 28, 46, 0.2));
@@ -945,23 +1038,107 @@ h1 {
 
 .shot-health {
   z-index: 5;
-  top: -11%;
+  top: -7%;
   left: 0;
   animation: phone-health-in 1.35s 0.27s var(--ease-out) forwards;
 }
 
 .shot-fitness {
   z-index: 4;
-  top: -4%;
-  left: 18%;
+  top: -1%;
+  left: 23%;
   animation: phone-fitness-in 1.42s 0.39s var(--ease-out) forwards;
 }
 
 .shot-finance {
   z-index: 3;
-  top: 3%;
-  left: 36%;
+  top: 5%;
+  left: 46%;
   animation: phone-finance-in 1.48s 0.5s var(--ease-out) forwards;
+}
+
+.portfolio-ready .website-shot,
+.portfolio-ready .phone-shot {
+  animation: none;
+  opacity: 1;
+  filter: blur(0) drop-shadow(0 25px 20px rgba(22, 28, 46, 0.18));
+  transition:
+    top 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+    left 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.55s ease;
+}
+
+.portfolio-ready .website-shot:nth-child(1) {
+  z-index: 4;
+  top: -5%;
+  left: 0;
+  opacity: 1;
+  transform: rotate(-8deg) scale(1);
+}
+
+.portfolio-ready .website-shot:nth-child(2) {
+  z-index: 3;
+  top: 2%;
+  left: 5%;
+  opacity: 0.94;
+  transform: rotate(-3deg) scale(0.985);
+}
+
+.portfolio-ready .website-shot:nth-child(3) {
+  z-index: 2;
+  top: 9%;
+  left: 10%;
+  opacity: 0.84;
+  transform: rotate(3deg) scale(0.97);
+}
+
+.portfolio-ready .website-shot:nth-child(4) {
+  z-index: 1;
+  top: 16%;
+  left: 15%;
+  opacity: 0.7;
+  filter: blur(0) drop-shadow(0 20px 17px rgba(22, 28, 46, 0.14));
+  transform: rotate(8deg) scale(0.955);
+}
+
+.portfolio-ready .phone-shot:nth-child(1) {
+  z-index: 5;
+  top: -7%;
+  left: 0;
+  opacity: 1;
+  transform: rotate(-11deg) scale(1);
+}
+
+.portfolio-ready .phone-shot:nth-child(2) {
+  z-index: 4;
+  top: -1%;
+  left: 23%;
+  opacity: 0.9;
+  transform: rotate(-5deg) scale(0.975);
+}
+
+.portfolio-ready .phone-shot:nth-child(3) {
+  z-index: 3;
+  top: 5%;
+  left: 46%;
+  opacity: 0.78;
+  filter: blur(0) drop-shadow(0 20px 17px rgba(22, 28, 46, 0.14));
+  transform: rotate(1deg) scale(0.95);
+}
+
+.portfolio-ready .website-shot.is-lifting {
+  z-index: 10;
+  opacity: 0.18;
+  filter: blur(0) drop-shadow(0 30px 28px rgba(0, 0, 0, 0.24));
+  transform: translate3d(-11%, -13%, 0) rotate(-13deg) scale(0.96);
+}
+
+.portfolio-ready .phone-shot.is-lifting {
+  z-index: 10;
+  opacity: 0.18;
+  filter: blur(0) drop-shadow(0 30px 28px rgba(0, 0, 0, 0.24));
+  transform: translate3d(13%, -10%, 0) rotate(8deg) scale(0.94);
 }
 
 .shot-swap {
@@ -990,6 +1167,78 @@ h1 {
   object-fit: contain;
   box-shadow: none;
   filter: drop-shadow(0 24px 24px rgba(28, 34, 51, 0.18));
+}
+
+@keyframes website-house-in {
+  0% {
+    opacity: 0;
+    filter: blur(14px);
+    transform: translate3d(-58vw, -18vh, 0) rotate(-20deg) scale(0.78);
+  }
+  66% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(2%, 2%, 0) rotate(-10deg) scale(1.025);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: rotate(-8deg);
+  }
+}
+
+@keyframes website-tennis-in {
+  0% {
+    opacity: 0;
+    filter: blur(14px);
+    transform: translate3d(-61vw, -12vh, 0) rotate(-17deg) scale(0.78);
+  }
+  66% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(2%, 1%, 0) rotate(-5deg) scale(1.025);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: rotate(-3deg);
+  }
+}
+
+@keyframes website-studio-in {
+  0% {
+    opacity: 0;
+    filter: blur(14px);
+    transform: translate3d(-64vw, -7vh, 0) rotate(-14deg) scale(0.76);
+  }
+  66% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(2%, 1%, 0) rotate(1deg) scale(1.025);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: rotate(3deg);
+  }
+}
+
+@keyframes website-audio-in {
+  0% {
+    opacity: 0;
+    filter: blur(14px);
+    transform: translate3d(-67vw, -2vh, 0) rotate(-11deg) scale(0.74);
+  }
+  66% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(2%, 0, 0) rotate(6deg) scale(1.025);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: rotate(8deg);
+  }
 }
 
 @keyframes phone-health-in {
@@ -1286,6 +1535,67 @@ h1 {
     height: 43%;
   }
 
+  .website-shot {
+    width: 61%;
+  }
+
+  .website-house {
+    left: -8%;
+  }
+
+  .website-tennis {
+    left: -2%;
+  }
+
+  .website-studio {
+    left: 4%;
+  }
+
+  .website-audio {
+    left: 10%;
+  }
+
+  .phone-stack {
+    left: 58%;
+    width: 42%;
+  }
+
+  .phone-shot {
+    height: 72%;
+  }
+
+  .shot-fitness {
+    left: 20%;
+  }
+
+  .shot-finance {
+    left: 40%;
+  }
+
+  .portfolio-ready .website-shot:nth-child(1) {
+    left: -8%;
+  }
+
+  .portfolio-ready .website-shot:nth-child(2) {
+    left: -2%;
+  }
+
+  .portfolio-ready .website-shot:nth-child(3) {
+    left: 4%;
+  }
+
+  .portfolio-ready .website-shot:nth-child(4) {
+    left: 10%;
+  }
+
+  .portfolio-ready .phone-shot:nth-child(2) {
+    left: 20%;
+  }
+
+  .portfolio-ready .phone-shot:nth-child(3) {
+    left: 40%;
+  }
+
   .wallet-card {
     width: 54%;
   }
@@ -1297,7 +1607,10 @@ h1 {
   }
 
   .hero-subtitle {
+    width: calc(100vw - 56px);
     max-width: calc(100vw - 56px);
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .eyebrow {
@@ -1342,8 +1655,49 @@ h1 {
 @media (max-width: 500px) {
   .card-scene {
     top: 12%;
-    left: 0;
-    width: 105%;
+    left: -2%;
+    width: 108%;
+  }
+
+  .website-shot {
+    width: 64%;
+  }
+
+  .browser-bar {
+    top: 4px;
+    left: 5px;
+    gap: 2px;
+    padding: 3px 5px;
+  }
+
+  .browser-bar i {
+    width: 3px;
+    height: 3px;
+  }
+
+  .phone-stack {
+    left: 57%;
+    width: 43%;
+  }
+
+  .phone-shot {
+    height: 67%;
+  }
+
+  .shot-fitness {
+    left: 17%;
+  }
+
+  .shot-finance {
+    left: 34%;
+  }
+
+  .portfolio-ready .phone-shot:nth-child(2) {
+    left: 17%;
+  }
+
+  .portfolio-ready .phone-shot:nth-child(3) {
+    left: 34%;
   }
 
   .hero-copy {
