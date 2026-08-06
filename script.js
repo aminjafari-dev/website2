@@ -1,4 +1,6 @@
 const hero = document.querySelector(".hero");
+const stage = document.querySelector(".stage");
+const logoIntro = document.querySelector(".logo-intro");
 const scene = document.querySelector(".card-scene");
 const websiteStack = document.querySelector(".website-stack");
 const phoneStack = document.querySelector(".phone-stack");
@@ -15,6 +17,62 @@ let slideTimer;
 let slideLocked = false;
 let touchStartY = 0;
 const reorderTimers = new Set();
+
+let introStarted = false;
+let introFinished = false;
+let introSafetyTimer;
+
+function setIntroState(name, enabled) {
+  document.documentElement.classList.toggle(name, enabled);
+}
+
+function endLogoIntro() {
+  if (introFinished) return;
+  introFinished = true;
+  window.clearTimeout(introSafetyTimer);
+  setIntroState("intro-ready", false);
+  setIntroState("intro-playing", false);
+  logoIntro?.remove();
+  startPortfolioCycle();
+}
+
+function finishLogoIntro(event) {
+  if (event.animationName !== "logo-stage-rise") return;
+  endLogoIntro();
+}
+
+function beginLogoIntro() {
+  if (introStarted) return;
+  introStarted = true;
+
+  window.scrollTo({ top: 0, behavior: "auto" });
+
+  if (reduceMotion.matches) {
+    endLogoIntro();
+    return;
+  }
+
+  requestAnimationFrame(() => setIntroState("intro-ready", true));
+  introSafetyTimer = window.setTimeout(endLogoIntro, 4200);
+}
+
+// The intro is timed in CSS, so it must not start counting down while the
+// browser is still fetching fonts and images on an uncached first visit.
+function whenPageIsPainted() {
+  const loaded =
+    document.readyState === "complete"
+      ? Promise.resolve()
+      : new Promise((resolve) =>
+          window.addEventListener("load", resolve, { once: true }),
+        );
+  const fonts = document.fonts ? document.fonts.ready : Promise.resolve();
+  const guard = new Promise((resolve) => window.setTimeout(resolve, 2500));
+
+  return Promise.race([Promise.all([loaded, fonts]), guard]);
+}
+
+stage.addEventListener("animationend", finishLogoIntro);
+whenPageIsPainted().then(beginLogoIntro);
 
 function moveArtwork(event) {
   if (reduceMotion.matches) return;
@@ -231,5 +289,3 @@ if ("IntersectionObserver" in window && !reduceMotion.matches) {
 } else {
   revealItems.forEach((item) => item.classList.add("is-visible"));
 }
-
-startPortfolioCycle();

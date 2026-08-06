@@ -8,6 +8,10 @@
       content="Byto.tech combines AI-powered development, professional engineering, and cybersecurity to build fast, scalable, secure digital products."
     />
     <title>Byto.tech — Secure AI-Powered Development</title>
+    <script>
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+      document.documentElement.classList.add("intro-playing");
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,6 +21,21 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <div class="logo-intro" aria-hidden="true">
+      <div class="logo-intro-lockup">
+        <span class="logo-intro-symbol">
+          <svg viewBox="0 0 48 48" role="presentation">
+            <circle class="logo-intro-orbit" cx="24" cy="24" r="17"></circle>
+          </svg>
+          <i class="logo-intro-seed"></i>
+          <b>B</b>
+        </span>
+        <span class="logo-intro-wordmark">
+          <i>B</i><i>y</i><i>t</i><i>o</i><i class="logo-intro-dot">.</i><i>t</i><i>e</i><i>c</i><i>h</i>
+        </span>
+      </div>
+    </div>
+
     <main class="stage">
       <section class="hero" aria-labelledby="hero-title">
         <header class="nav">
@@ -137,7 +156,7 @@
             <span class="section-label problem-chip"><i></i> The challenge</span>
             <h2 id="problem-title">
               <span class="problem-title-line">AI Makes Development</span>
-              <span class="problem-title-line"><em>Faster...</em> but not safer.</span>
+              <span class="problem-title-line"><em>Faster...</em></span>
             </h2>
           </div>
 
@@ -155,20 +174,18 @@
 
             <div class="problem-copy">
               <p class="problem-lead">
-                AI can ship an idea quickly. It cannot replace the engineering
-                judgment that keeps a growing product dependable.
+                Today, anyone can generate a website or application using AI.
               </p>
               <p>
-                Without the right foundation, speed creates security gaps,
-                fragile architecture, and code that becomes harder to maintain.
+                But speed alone isn't enough. Many AI-generated products suffer
+                from security vulnerabilities, poor architecture, and code that
+                becomes difficult to maintain as a business grows.
               </p>
 
               <div class="risk-cloud" aria-label="Common risks">
                 <span><b>01</b> Security vulnerabilities</span>
                 <span><b>02</b> Fragile architecture</span>
                 <span><b>03</b> Unmaintainable code</span>
-                <span><b>04</b> Scaling bottlenecks</span>
-                <span><b>05</b> Hidden technical debt</span>
               </div>
             </div>
           </div>
