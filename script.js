@@ -3,6 +3,7 @@ const scene = document.querySelector(".card-scene");
 const websiteStack = document.querySelector(".website-stack");
 const phoneStack = document.querySelector(".phone-stack");
 const brand = document.querySelector(".brand");
+const problemSection = document.querySelector(".problem-section");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const originalWebsiteOrder = [...websiteStack.children];
 const originalPhoneOrder = [...phoneStack.children];
@@ -10,6 +11,8 @@ const originalPhoneOrder = [...phoneStack.children];
 let frame;
 let readyTimer;
 let cycleTimer;
+let slideTimer;
+let slideLocked = false;
 const reorderTimers = new Set();
 
 function moveArtwork(event) {
@@ -83,6 +86,7 @@ function replayIntro(event) {
   stopPortfolioCycle();
   scene.classList.remove("portfolio-ready");
   restoreStackOrder();
+  window.scrollTo({ top: 0, behavior: reduceMotion.matches ? "auto" : "smooth" });
 
   document.getAnimations().forEach((animation) => {
     animation.cancel();
@@ -96,6 +100,64 @@ hero.addEventListener("pointermove", moveArtwork);
 hero.addEventListener("pointerleave", resetArtwork);
 brand.addEventListener("click", replayIntro);
 
+function moveToSlide(target) {
+  slideLocked = true;
+  window.clearTimeout(slideTimer);
+
+  if (target === problemSection) {
+    problemSection.classList.add("is-presented");
+  }
+
+  target.scrollIntoView({
+    behavior: reduceMotion.matches ? "auto" : "smooth",
+    block: "start",
+  });
+
+  slideTimer = window.setTimeout(() => {
+    slideLocked = false;
+  }, reduceMotion.matches ? 100 : 1150);
+}
+
+function handleSlideWheel(event) {
+  if (Math.abs(event.deltaY) < 8) return;
+
+  if (slideLocked) {
+    event.preventDefault();
+    return;
+  }
+
+  const heroTop = hero.offsetTop;
+  const problemTop = problemSection.offsetTop;
+  const currentTop = window.scrollY;
+
+  if (event.deltaY > 0 && currentTop < problemTop - 24) {
+    event.preventDefault();
+    moveToSlide(problemSection);
+    return;
+  }
+
+  const nearProblemStart =
+    currentTop > heroTop + 24 &&
+    currentTop < problemTop + Math.min(180, window.innerHeight * 0.2);
+
+  if (event.deltaY < 0 && nearProblemStart) {
+    event.preventDefault();
+    moveToSlide(hero);
+  }
+}
+
+window.addEventListener("wheel", handleSlideWheel, { passive: false });
+
+function ensureProblemIsVisible() {
+  const bounds = problemSection.getBoundingClientRect();
+  if (bounds.top < window.innerHeight * 0.92 && bounds.bottom > 0) {
+    problemSection.classList.add("is-presented");
+  }
+}
+
+window.addEventListener("scroll", ensureProblemIsVisible, { passive: true });
+requestAnimationFrame(ensureProblemIsVisible);
+
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {
     window.clearInterval(cycleTimer);
@@ -106,6 +168,21 @@ document.addEventListener("visibilitychange", () => {
 });
 
 const revealItems = document.querySelectorAll(".scroll-reveal");
+
+if ("IntersectionObserver" in window && !reduceMotion.matches) {
+  const problemObserver = new IntersectionObserver(
+    ([entry], observer) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("is-presented");
+      observer.unobserve(entry.target);
+    },
+    { threshold: 0.01, rootMargin: "0px 0px -4% 0px" },
+  );
+
+  problemObserver.observe(problemSection);
+} else {
+  problemSection.classList.add("is-presented");
+}
 
 if ("IntersectionObserver" in window && !reduceMotion.matches) {
   const revealObserver = new IntersectionObserver(
