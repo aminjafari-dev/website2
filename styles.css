@@ -38,14 +38,14 @@ a {
   gap: clamp(100px, 12vw, 190px);
   align-items: center;
   min-height: 100svh;
-  padding: clamp(14px, 3.4vw, 52px);
+  padding: 0 clamp(14px, 3.4vw, 52px) clamp(14px, 3.4vw, 52px);
   overflow: hidden;
 }
 
 .hero {
   position: relative;
-  width: min(100%, 1500px);
-  min-height: min(90svh, 940px);
+  width: 100vw;
+  min-height: 100svh;
   overflow: hidden;
   background:
     radial-gradient(circle at 82% 12%, rgba(82, 89, 255, 0.18), transparent 31%),
@@ -926,7 +926,7 @@ h1 {
 }
 
 .portfolio-scene {
-  top: 1.5%;
+  top: 6%;
   left: 4%;
   width: 92%;
   height: 54%;
@@ -1000,7 +1000,7 @@ h1 {
 
 .website-house {
   z-index: 4;
-  top: -5%;
+  top: 2%;
   left: 0;
   animation: website-house-in 1.38s 0.24s var(--ease-out) forwards;
 }
@@ -1040,7 +1040,7 @@ h1 {
 
 .shot-health {
   z-index: 5;
-  top: -7%;
+  top: 2%;
   left: 0;
   animation: phone-health-in 1.35s 0.27s var(--ease-out) forwards;
 }
@@ -1072,7 +1072,7 @@ h1 {
 
 .portfolio-ready .website-shot:nth-child(1) {
   z-index: 4;
-  top: -5%;
+  top: 2%;
   left: 0;
   opacity: 1;
   transform: rotate(-8deg) scale(1);
@@ -1105,7 +1105,7 @@ h1 {
 
 .portfolio-ready .phone-shot:nth-child(1) {
   z-index: 6;
-  top: -7%;
+  top: 2%;
   left: 0;
   opacity: 1;
   transform: rotate(-11deg) scale(1);
@@ -2275,9 +2275,11 @@ h1 {
 /* Cinematic challenge reveal */
 .problem-section {
   z-index: 12;
-  width: min(100%, 1500px);
-  margin-top: calc(clamp(100px, 12vw, 190px) * -0.72);
-  scroll-margin-top: clamp(14px, 3.4vw, 52px);
+  width: 100vw;
+  min-height: 100svh;
+  margin-top: calc(clamp(100px, 12vw, 190px) * -1);
+  background: #080b12;
+  scroll-margin-top: 0;
   scroll-snap-align: start;
   scroll-snap-stop: always;
 }
@@ -2289,7 +2291,7 @@ h1 {
 .problem-panel {
   position: relative;
   display: flex;
-  height: min(90svh, 920px);
+  height: 100svh;
   min-height: 0;
   padding: clamp(32px, 4vh, 54px) clamp(26px, 6vw, 92px);
   flex-direction: column;
@@ -2573,12 +2575,13 @@ h1 {
 
 @media (max-width: 800px) {
   .problem-section {
-    width: calc(100% - 20px);
-    margin-top: -54px;
+    width: 100%;
+    margin-top: 0;
   }
 
   .problem-panel {
-    min-height: auto;
+    height: auto;
+    min-height: 100svh;
     padding: 72px 6.5% 34px;
   }
 
@@ -2602,7 +2605,7 @@ h1 {
 
 @media (max-width: 500px) {
   .problem-section {
-    margin-top: -34px;
+    margin-top: 0;
   }
 
   .problem-section h2 {
