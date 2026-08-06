@@ -13,6 +13,7 @@ let readyTimer;
 let cycleTimer;
 let slideTimer;
 let slideLocked = false;
+let touchStartY = 0;
 const reorderTimers = new Set();
 
 function moveArtwork(event) {
@@ -119,7 +120,7 @@ function moveToSlide(target) {
 }
 
 function handleSlideWheel(event) {
-  if (Math.abs(event.deltaY) < 8) return;
+  if (Math.abs(event.deltaY) < 2) return;
 
   if (slideLocked) {
     event.preventDefault();
@@ -147,6 +148,36 @@ function handleSlideWheel(event) {
 }
 
 window.addEventListener("wheel", handleSlideWheel, { passive: false });
+
+window.addEventListener(
+  "touchstart",
+  (event) => {
+    touchStartY = event.touches[0]?.clientY ?? 0;
+  },
+  { passive: true },
+);
+
+window.addEventListener(
+  "touchend",
+  (event) => {
+    if (slideLocked) return;
+
+    const touchEndY = event.changedTouches[0]?.clientY ?? touchStartY;
+    const distance = touchStartY - touchEndY;
+    const problemTop = problemSection.offsetTop;
+
+    if (distance > 45 && window.scrollY < problemTop - 24) {
+      moveToSlide(problemSection);
+    } else if (
+      distance < -45 &&
+      window.scrollY > hero.offsetTop + 24 &&
+      window.scrollY < problemTop + window.innerHeight * 0.2
+    ) {
+      moveToSlide(hero);
+    }
+  },
+  { passive: true },
+);
 
 function ensureProblemIsVisible() {
   const bounds = problemSection.getBoundingClientRect();
