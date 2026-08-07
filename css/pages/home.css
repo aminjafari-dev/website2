@@ -349,45 +349,6 @@ a {
   background: rgba(205, 170, 128, 0.12);
 }
 
-.circuit-grid {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  opacity: 0.27;
-  background-image:
-    linear-gradient(rgba(205, 170, 128, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(205, 170, 128, 0.08) 1px, transparent 1px);
-  background-size: 74px 74px;
-  mask-image: radial-gradient(circle at 62% 44%, black, transparent 72%);
-}
-
-.circuit-grid::before,
-.circuit-grid::after {
-  position: absolute;
-  border: solid rgba(205, 170, 128, 0.28);
-  border-width: 1px 1px 0 0;
-  content: "";
-}
-
-.circuit-grid::before {
-  top: 18%;
-  right: 4%;
-  width: 41%;
-  height: 35%;
-  box-shadow:
-    74px 74px 0 -73px rgba(205, 170, 128, 0.3),
-    -148px 148px 0 -147px rgba(205, 170, 128, 0.28);
-}
-
-.circuit-grid::after {
-  bottom: 11%;
-  left: 8%;
-  width: 27%;
-  height: 21%;
-  transform: rotate(180deg);
-}
-
 .outline-card {
   position: absolute;
   top: 11%;
@@ -2543,18 +2504,6 @@ h1 {
   transform: translateY(0) scale(1);
 }
 
-.problem-panel::before {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(205, 170, 128, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(205, 170, 128, 0.06) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: linear-gradient(to bottom, black, transparent 78%);
-  content: "";
-  pointer-events: none;
-}
-
 .problem-intro {
   position: relative;
   z-index: 2;
@@ -3015,18 +2964,6 @@ h1 {
   transform: translateY(0) scale(1);
 }
 
-.solution-panel::before {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(205, 170, 128, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(205, 170, 128, 0.06) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: linear-gradient(to bottom, black, transparent 78%);
-  content: "";
-  pointer-events: none;
-}
-
 .solution-intro {
   position: relative;
   z-index: 2;
@@ -3209,18 +3146,6 @@ h1 {
     opacity 0.4s ease,
     transform 1.15s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: clip-path, transform;
-}
-
-.services-panel::before {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(205, 170, 128, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(205, 170, 128, 0.06) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: linear-gradient(to bottom, black, transparent 78%);
-  content: "";
-  pointer-events: none;
 }
 
 .services-section.is-presented .services-panel {
