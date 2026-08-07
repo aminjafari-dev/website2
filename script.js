@@ -207,7 +207,8 @@ function servicesScrollEnd() {
 const serviceCards = [
   ...(document.querySelectorAll("[data-services-stack] .service-card") ?? []),
 ];
-const STACK_PEEK = 14; // px of previous card visible at the top, like the video
+const STACK_PEEK = 18; // px of previous card visible at the top
+const STACK_GAP = 36; // free space between the active card and the next peek
 
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
@@ -244,15 +245,17 @@ function updateServicesStack() {
     }
 
     const seated = index * STACK_PEEK;
-    const cardHeight = card.offsetHeight || window.innerHeight * 0.78;
-    const waiting = cardHeight - 32;
+    const cardHeight = card.offsetHeight || window.innerHeight * 0.56;
+    // Park the next card fully below the active one with a clear gap,
+    // so the panel shows between them like the reference video.
+    const waiting = cardHeight + STACK_GAP;
     const raw = activeSegment - (index - 1);
 
     let y;
     if (raw <= 0) {
       // Only the immediate next card peeks; later cards stay fully below.
       const nextUp = Math.floor(activeSegment) + 1;
-      y = index === nextUp ? waiting : window.innerHeight * 1.12;
+      y = index === nextUp ? waiting : window.innerHeight * 1.2;
     } else if (raw >= 1) {
       y = seated;
     } else {
