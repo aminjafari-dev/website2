@@ -55,7 +55,7 @@ function beginLogoIntro() {
   }
 
   requestAnimationFrame(() => setIntroState("intro-ready", true));
-  introSafetyTimer = window.setTimeout(endLogoIntro, 4200);
+  introSafetyTimer = window.setTimeout(endLogoIntro, 4800);
 }
 
 // The intro is timed in CSS, so it must not start counting down while the

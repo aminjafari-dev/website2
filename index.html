@@ -19,20 +19,56 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="preload" as="image" href="assets/logo-parts/B.png" />
+    <link rel="preload" as="image" href="assets/logo-parts/Y.png" />
+    <link rel="preload" as="image" href="assets/logo-parts/T.png" />
+    <link rel="preload" as="image" href="assets/logo-parts/O.png" />
+    <link rel="preload" as="image" href="assets/logo-parts/tech.png" />
   </head>
   <body>
     <div class="logo-intro" aria-hidden="true">
       <div class="logo-intro-lockup">
-        <span class="logo-intro-symbol">
-          <svg viewBox="0 0 48 48" role="presentation">
-            <circle class="logo-intro-orbit" cx="24" cy="24" r="17"></circle>
-          </svg>
-          <i class="logo-intro-seed"></i>
-          <b>B</b>
-        </span>
-        <span class="logo-intro-wordmark">
-          <i>B</i><i>y</i><i>t</i><i>o</i><i class="logo-intro-dot">.</i><i>t</i><i>e</i><i>c</i><i>h</i>
-        </span>
+        <div class="logo-intro-byto">
+          <img
+            class="logo-part logo-part-b"
+            src="assets/logo-parts/B.png"
+            alt=""
+            width="272"
+            height="396"
+          />
+          <img
+            class="logo-part logo-part-y"
+            src="assets/logo-parts/Y.png"
+            alt=""
+            width="172"
+            height="396"
+          />
+          <div class="logo-intro-tail">
+            <div class="logo-intro-to">
+              <img
+                class="logo-part logo-part-t"
+                src="assets/logo-parts/T.png"
+                alt=""
+                width="147"
+                height="275"
+              />
+              <img
+                class="logo-part logo-part-o"
+                src="assets/logo-parts/O.png"
+                alt=""
+                width="194"
+                height="270"
+              />
+            </div>
+            <img
+              class="logo-part logo-part-tech"
+              src="assets/logo-parts/tech.png"
+              alt=""
+              width="339"
+              height="124"
+            />
+          </div>
+        </div>
       </div>
     </div>
 
@@ -164,7 +200,7 @@
             <figure class="problem-visual">
               <div class="problem-orbit" aria-hidden="true"></div>
               <video autoplay muted loop playsinline aria-label="A padlock springing open">
-                <source src="assets/vid/lock-breach.webm" type="video/webm" />
+                <source src="assets/vid/lock-transparent.webm" type="video/webm" />
               </video>
               <span class="problem-alert" aria-hidden="true">
                 <i></i> Unlocked in production

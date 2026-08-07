@@ -98,15 +98,16 @@ body {
 }
 
 .logo-intro {
+  --logo-h: min(24vw, 156px);
   position: fixed;
   inset: 0;
   z-index: 1000;
   display: grid;
-  background: var(--color-navy);
+  background: var(--color-steel);
   pointer-events: none;
   place-items: center;
   will-change: transform;
-  animation: logo-intro-rise 0.9s 2.4s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+  animation: logo-intro-rise 0.9s 2.85s cubic-bezier(0.76, 0, 0.24, 1) forwards;
 }
 
 .intro-playing {
@@ -124,7 +125,7 @@ body {
   z-index: 1001;
   transform: translateY(100vh);
   will-change: transform;
-  animation: logo-stage-rise 0.9s 2.4s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+  animation: logo-stage-rise 0.9s 2.85s cubic-bezier(0.76, 0, 0.24, 1) forwards;
 }
 
 .intro-playing .hero,
@@ -137,153 +138,176 @@ body {
 }
 
 .logo-intro-lockup {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  transform: translateX(42px);
-  animation: logo-lockup-center 0.65s 1.15s var(--ease-out) forwards;
-}
-
-.logo-intro-symbol {
-  position: relative;
   display: grid;
-  width: 48px;
-  height: 48px;
-  flex: 0 0 48px;
   place-items: center;
+  animation: logo-lockup-settle 0.7s 1.55s var(--ease-out) both;
 }
 
-.logo-intro-symbol svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  animation: logo-orbit-spin 0.85s 0.35s cubic-bezier(0.65, 0, 0.35, 1) both;
-  transform-origin: center;
-}
-
-.logo-intro-orbit {
-  fill: none;
-  stroke: #fff;
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-dasharray: 107;
-  stroke-dashoffset: 107;
-  transform: rotate(-90deg);
-  transform-origin: center;
-  animation:
-    logo-orbit-draw 0.58s 0.28s ease-out forwards,
-    logo-orbit-away 0.24s 0.94s ease-in forwards;
-}
-
-.logo-intro-seed {
-  width: 7px;
-  height: 7px;
-  border: 2px solid #fff;
-  border-radius: 50%;
-  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
-  animation: logo-seed-pulse 0.7s ease-out forwards;
-}
-
-.logo-intro-symbol b {
-  position: absolute;
-  display: grid;
-  width: 34px;
-  height: 34px;
-  border: 2px solid #fff;
-  border-radius: 11px;
-  font-size: 18px;
-  line-height: 1;
-  opacity: 0;
-  place-items: center;
-  transform: scale(0.55) rotate(-35deg);
-  animation: logo-mark-in 0.48s 0.82s var(--ease-out) forwards;
-}
-
-.logo-intro-wordmark {
+.logo-intro-byto {
   display: flex;
-  margin-left: 9px;
-  overflow: hidden;
-  font-size: 25px;
-  font-weight: 700;
-  letter-spacing: -0.06em;
-  line-height: 1;
-  white-space: nowrap;
+  align-items: flex-start;
+  gap: 0;
 }
 
-.logo-intro-wordmark i {
-  display: inline-block;
-  font-style: normal;
+.logo-intro-tail {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: calc(var(--logo-h) * 0.045);
+}
+
+.logo-intro-to {
+  display: flex;
+  align-items: flex-start;
+}
+
+.logo-part {
+  display: block;
+  width: auto;
+  flex: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  will-change: transform, opacity, filter;
+}
+
+.logo-part-b {
+  height: var(--logo-h);
+  margin-right: calc(var(--logo-h) * 0.06);
   opacity: 0;
-  transform: translateX(-10px);
-  animation: logo-letter-in 0.32s var(--ease-out) forwards;
+  filter: blur(8px);
+  transform: translate3d(-42px, 0, 0) scale(0.88);
+  animation: logo-part-from-left 0.78s 0.12s var(--ease-out) forwards;
 }
 
-.logo-intro-wordmark i:nth-child(1) { animation-delay: 1.17s; }
-.logo-intro-wordmark i:nth-child(2) { animation-delay: 1.22s; }
-.logo-intro-wordmark i:nth-child(3) { animation-delay: 1.27s; }
-.logo-intro-wordmark i:nth-child(4) { animation-delay: 1.32s; }
-.logo-intro-wordmark i:nth-child(5) { animation-delay: 1.37s; }
-.logo-intro-wordmark i:nth-child(6) { animation-delay: 1.42s; }
-.logo-intro-wordmark i:nth-child(7) { animation-delay: 1.47s; }
-.logo-intro-wordmark i:nth-child(8) { animation-delay: 1.52s; }
-.logo-intro-wordmark i:nth-child(9) { animation-delay: 1.57s; }
-
-.logo-intro-dot {
-  color: var(--color-gold);
+.logo-part-y {
+  height: var(--logo-h);
+  margin-right: calc(var(--logo-h) * -0.08);
+  opacity: 0;
+  filter: blur(8px);
+  transform: translate3d(0, -36px, 0) scale(0.9);
+  animation: logo-part-from-top 0.72s 0.34s var(--ease-out) forwards;
 }
 
-@keyframes logo-seed-pulse {
+.logo-part-t {
+  height: calc(var(--logo-h) * 0.695);
+  margin-right: calc(var(--logo-h) * -0.01);
+  opacity: 0;
+  filter: blur(8px);
+  transform: translate3d(0, 28px, 0) rotate(-8deg) scale(0.9);
+  animation: logo-part-from-tilt 0.72s 0.52s var(--ease-out) forwards;
+}
+
+.logo-part-o {
+  height: calc(var(--logo-h) * 0.682);
+  opacity: 0;
+  filter: blur(8px);
+  transform: scale(0.55);
+  animation: logo-part-pop 0.7s 0.7s var(--ease-out) forwards;
+}
+
+.logo-part-tech {
+  height: calc(var(--logo-h) * 0.313);
+  margin-right: calc(var(--logo-h) * 0.02);
+  opacity: 0;
+  filter: blur(6px);
+  transform: translate3d(0, 22px, 0) scale(0.94);
+  animation: logo-part-from-bottom 0.68s 0.96s var(--ease-out) forwards;
+}
+
+@keyframes logo-part-from-left {
   0% {
     opacity: 0;
-    transform: scale(0.2);
+    filter: blur(8px);
+    transform: translate3d(-42px, 0, 0) scale(0.88);
   }
-  35% {
+  68% {
     opacity: 1;
-    box-shadow: 0 0 0 7px rgba(255, 255, 255, 0.13);
-    transform: scale(1);
+    filter: blur(0);
+    transform: translate3d(5px, 0, 0) scale(1.03);
   }
   100% {
-    opacity: 0;
-    box-shadow: 0 0 0 15px rgba(255, 255, 255, 0);
-    transform: scale(1.65);
-  }
-}
-
-@keyframes logo-orbit-draw {
-  to { stroke-dashoffset: 0; }
-}
-
-@keyframes logo-orbit-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(300deg); }
-}
-
-@keyframes logo-orbit-away {
-  to {
-    opacity: 0;
-    stroke-dashoffset: -45;
-  }
-}
-
-@keyframes logo-mark-in {
-  to {
     opacity: 1;
-    transform: scale(1) rotate(0);
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) scale(1);
   }
 }
 
-@keyframes logo-lockup-center {
-  to { transform: translateX(0); }
-}
-
-@keyframes logo-letter-in {
-  to {
+@keyframes logo-part-from-top {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translate3d(0, -36px, 0) scale(0.9);
+  }
+  68% {
     opacity: 1;
-    transform: translateX(0);
+    filter: blur(0);
+    transform: translate3d(0, 4px, 0) scale(1.03);
   }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes logo-part-from-tilt {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translate3d(0, 28px, 0) rotate(-8deg) scale(0.9);
+  }
+  70% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, -3px, 0) rotate(1.5deg) scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes logo-part-pop {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+    transform: scale(0.55);
+  }
+  68% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1.08);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+@keyframes logo-part-from-bottom {
+  0% {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translate3d(0, 22px, 0) scale(0.94);
+  }
+  70% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, -3px, 0) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes logo-lockup-settle {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.025); }
+  100% { transform: scale(1); }
 }
 
 @keyframes logo-intro-rise {
@@ -961,45 +985,63 @@ h1 {
 
 .button {
   display: inline-flex;
-  min-height: 48px;
+  min-height: 44px;
   padding: 0 22px;
   border: 1px solid transparent;
-  border-radius: 6px;
+  border-radius: 999px;
   align-items: center;
   justify-content: center;
-  gap: 18px;
-  font-size: clamp(10px, 0.82vw, 13px);
+  gap: 10px;
+  font-size: clamp(11px, 0.85vw, 14px);
   font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
   transition:
-    transform 0.3s var(--ease-out),
-    border-color 0.3s ease,
-    background 0.3s ease;
+    transform 0.28s var(--ease-out),
+    border-color 0.28s ease,
+    background 0.28s ease,
+    box-shadow 0.28s ease,
+    opacity 0.28s ease;
 }
 
 .button:hover {
-  transform: translateY(-3px);
+  transform: scale(1.03);
+}
+
+.button:active {
+  transform: scale(0.98);
+  opacity: 0.92;
 }
 
 .button-primary {
   color: var(--btn-primary-text);
   background: var(--btn-primary-bg);
-  box-shadow: 0 12px 35px rgba(205, 170, 128, 0.16);
+  box-shadow:
+    0 1px 0 rgba(245, 240, 232, 0.22) inset,
+    0 8px 22px rgba(205, 170, 128, 0.22);
 }
 
 .button-primary:hover {
   background: var(--btn-primary-hover);
+  box-shadow:
+    0 1px 0 rgba(245, 240, 232, 0.18) inset,
+    0 10px 26px rgba(153, 121, 83, 0.28);
 }
 
 .button-secondary {
-  border-color: var(--btn-secondary-border);
+  border-color: rgba(205, 170, 128, 0.28);
   color: var(--btn-secondary-text);
-  background: var(--btn-secondary-bg);
-  backdrop-filter: blur(10px);
+  background: rgba(245, 240, 232, 0.06);
+  backdrop-filter: saturate(160%) blur(16px);
+  -webkit-backdrop-filter: saturate(160%) blur(16px);
+  box-shadow: 0 1px 0 rgba(245, 240, 232, 0.08) inset;
 }
 
 .button-secondary:hover {
   border-color: var(--border-strong);
-  background: rgba(245, 240, 232, 0.07);
+  background: rgba(245, 240, 232, 0.12);
 }
 
 .asterisk {
@@ -2702,9 +2744,8 @@ h1 {
   overflow: hidden;
   border: 1px solid rgba(205, 170, 128, 0.12);
   border-radius: clamp(20px, 2vw, 30px);
-  background:
-    radial-gradient(circle at 50% 48%, rgba(153, 121, 83, 0.18), transparent 38%),
-    linear-gradient(155deg, #213a56, #0f1e3f 74%);
+  /* Keep this clear so the padlock WebM alpha shows the panel/page behind it */
+  background: transparent;
   box-shadow: 0 34px 70px rgba(0, 0, 0, 0.34);
   opacity: 0;
   filter: blur(12px);
@@ -2727,6 +2768,7 @@ h1 {
   left: 50%;
   width: 92%;
   height: 92%;
+  background: transparent;
   object-fit: contain;
   transform: translate(-50%, -54%);
 }
