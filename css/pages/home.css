@@ -2101,7 +2101,8 @@ h1 {
   }
 
   .hero {
-    min-height: max(100svh, 1000px);
+    height: 100svh;
+    min-height: 100svh;
     box-shadow: none;
   }
 
@@ -2208,7 +2209,7 @@ h1 {
   }
 
   .hero-copy {
-    top: 50%;
+    top: 54%;
     left: 7%;
     width: 86%;
   }
@@ -2264,6 +2265,19 @@ h1 {
     padding-left: 7%;
   }
 
+  /* Full-bleed cinematic slides — no side gutters like the hero */
+  .problem-section,
+  .solution-section,
+  .services-section,
+  .contact-section {
+    width: 100%;
+    max-width: none;
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: 0;
+    margin-left: 0;
+  }
+
   .section-grid,
   .solution-intro {
     grid-template-columns: 1fr;
@@ -2284,17 +2298,20 @@ h1 {
   }
 
   .solution-grid {
-    gap: 12px;
+    gap: 14px;
     align-items: stretch;
+    flex: none;
     flex-direction: column;
+    min-height: 0;
   }
 
-  /* No hover on touch, so every card shows its detail. */
+  /* No hover on touch — every card shows full detail at natural height. */
   .solution-card,
   .solution-card.is-active {
     height: auto;
     min-height: 0;
-    flex-grow: 0;
+    flex: none;
+    overflow: visible;
   }
 
   .card-reveal,
@@ -2305,7 +2322,22 @@ h1 {
   }
 
   .card-body {
-    margin-top: 54px;
+    margin-top: 18px;
+  }
+
+  .solution-card h3 {
+    font-size: clamp(20px, 5.4vw, 26px);
+  }
+
+  .solution-card p {
+    max-width: none;
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .card-outcome {
+    margin-top: 14px;
   }
 }
 
@@ -2382,7 +2414,7 @@ h1 {
   }
 
   .hero-copy {
-    top: 48%;
+    top: 52%;
   }
 
   h1 {
@@ -2437,11 +2469,16 @@ h1 {
   }
 
   .solution-card {
-    padding: 25px;
+    padding: 20px 18px 22px;
   }
 
   .card-body {
-    margin-top: 44px;
+    margin-top: 14px;
+  }
+
+  .card-icon {
+    width: 36px;
+    height: 36px;
   }
 }
 
@@ -2862,15 +2899,17 @@ h1 {
   .problem-panel {
     height: auto;
     min-height: 100svh;
-    padding: 72px 6.5% 34px;
+    padding: 64px 5% 48px;
+    overflow: visible;
   }
 
   .problem-showcase {
     grid-template-columns: 1fr;
+    flex: none;
   }
 
   .problem-visual {
-    min-height: min(110vw, 480px);
+    min-height: min(92vw, 380px);
   }
 
   .problem-copy {
@@ -2897,11 +2936,11 @@ h1 {
   }
 
   .problem-showcase {
-    margin-top: 38px;
+    margin-top: 28px;
   }
 
   .problem-visual {
-    min-height: 390px;
+    min-height: min(88vw, 340px);
   }
 
   .problem-visual figcaption {
@@ -3074,11 +3113,18 @@ h1 {
   .solution-panel {
     height: auto;
     min-height: 100svh;
-    padding: 72px 6.5% 34px;
+    padding: 64px 5% 48px;
+    overflow: visible;
+  }
+
+  .solution-grid {
+    flex: none;
   }
 
   .solution-card,
   .solution-section.is-presented .solution-card {
+    height: auto;
+    flex: none;
     opacity: 1;
     animation: none;
   }
@@ -3700,7 +3746,8 @@ h1 {
   .contact-panel {
     height: auto;
     min-height: 100svh;
-    padding: 72px 6.5% 40px;
+    padding: 64px 5% 48px;
+    overflow: visible;
   }
 
   .contact-layout {
