@@ -10,6 +10,7 @@ const solutionSection = document.querySelector(".solution-section");
 const servicesSection = document.querySelector(".services-section");
 const contactSection = document.querySelector(".contact-section");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const mobileSlideNav = window.matchMedia("(max-width: 800px)");
 const originalWebsiteOrder = [...websiteStack.children];
 const originalPhoneOrder = [...phoneStack.children];
 
@@ -310,17 +311,17 @@ function handleSlideWheel(event) {
     return;
   }
 
+  // Mobile: plain native scroll — no slide snaps.
+  if (mobileSlideNav.matches) return;
+
   const heroTop = hero.offsetTop;
   const problemTop = problemSection.offsetTop;
-  const problemEnd = sectionScrollEnd(problemSection);
+  const currentTop = window.scrollY;
+  const edge = Math.min(180, window.innerHeight * 0.2);
   const solutionTop = solutionSection.offsetTop;
-  const solutionEnd = sectionScrollEnd(solutionSection);
   const servicesTop = servicesSection.offsetTop;
   const servicesEnd = servicesScrollEnd();
   const contactTop = contactSection?.offsetTop ?? Number.POSITIVE_INFINITY;
-  const contactEnd = sectionScrollEnd(contactSection);
-  const currentTop = window.scrollY;
-  const edge = Math.min(180, window.innerHeight * 0.2);
 
   // ↓ hero → challenge
   if (event.deltaY > 0 && currentTop < problemTop - 24) {
@@ -329,17 +330,15 @@ function handleSlideWheel(event) {
     return;
   }
 
-  // ↓ inside challenge (tall on mobile): native scroll until the end
+  // ↓ challenge → approach
   if (event.deltaY > 0 && currentTop < solutionTop - 24) {
-    if (currentTop < problemEnd - 4) return;
     event.preventDefault();
     moveToSlide(solutionSection);
     return;
   }
 
-  // ↓ inside approach (tall on mobile): native scroll until the end
+  // ↓ approach → services
   if (event.deltaY > 0 && currentTop < servicesTop - 24) {
-    if (currentTop < solutionEnd - 4) return;
     event.preventDefault();
     moveToSlide(servicesSection);
     return;
@@ -357,15 +356,9 @@ function handleSlideWheel(event) {
     return;
   }
 
-  // ↓ inside contact (tall on mobile): native scroll until the end
+  // ↓ settled on contact
   if (event.deltaY > 0) {
-    if (currentTop < contactEnd - 4) return;
     event.preventDefault();
-    return;
-  }
-
-  // ↑ mid-contact: native scroll
-  if (contactSection && currentTop > contactTop + edge) {
     return;
   }
 
@@ -397,20 +390,10 @@ function handleSlideWheel(event) {
     return;
   }
 
-  // ↑ mid-approach: native scroll
-  if (currentTop > solutionTop + edge) {
-    return;
-  }
-
   // ↑ approach → challenge
   if (currentTop > solutionTop - edge) {
     event.preventDefault();
     moveToSlide(problemSection);
-    return;
-  }
-
-  // ↑ mid-challenge: native scroll
-  if (currentTop > problemTop + edge) {
     return;
   }
 
@@ -436,34 +419,30 @@ window.addEventListener(
   (event) => {
     if (slideLocked) return;
 
+    // Mobile: plain native scroll — no slide snaps.
+    if (mobileSlideNav.matches) return;
+
     const touchEndY = event.changedTouches[0]?.clientY ?? touchStartY;
     const distance = touchStartY - touchEndY;
     const problemTop = problemSection.offsetTop;
-    const problemEnd = sectionScrollEnd(problemSection);
+    const edge = Math.min(180, window.innerHeight * 0.2);
+    const y = window.scrollY;
     const solutionTop = solutionSection.offsetTop;
-    const solutionEnd = sectionScrollEnd(solutionSection);
     const servicesTop = servicesSection.offsetTop;
     const servicesEnd = servicesScrollEnd();
     const contactTop = contactSection?.offsetTop ?? Number.POSITIVE_INFINITY;
-    const edge = Math.min(180, window.innerHeight * 0.2);
-    const y = window.scrollY;
 
     if (distance > 45 && y < problemTop - 24) {
       moveToSlide(problemSection);
     } else if (distance > 45 && y < solutionTop - 24) {
-      // Tall challenge slide: let native touch scroll reveal copy below the lock.
-      if (y < problemEnd - 4) return;
       moveToSlide(solutionSection);
     } else if (distance > 45 && y < servicesTop - 24) {
-      if (y < solutionEnd - 4) return;
       moveToSlide(servicesSection);
     } else if (distance > 45 && y < servicesEnd - 4) {
       // Inside the services stack — native touch scroll handles seating.
       return;
     } else if (distance > 45 && y < contactTop - 24) {
       moveToSlide(contactSection);
-    } else if (distance < -45 && contactSection && y > contactTop + edge) {
-      return;
     } else if (distance < -45 && contactSection && y > contactTop - edge) {
       slideLocked = true;
       window.clearTimeout(slideTimer);
@@ -479,12 +458,8 @@ window.addEventListener(
       return;
     } else if (distance < -45 && y > servicesTop - edge) {
       moveToSlide(solutionSection);
-    } else if (distance < -45 && y > solutionTop + edge) {
-      return;
     } else if (distance < -45 && y > solutionTop - edge) {
       moveToSlide(problemSection);
-    } else if (distance < -45 && y > problemTop + edge) {
-      return;
     } else if (distance < -45 && y > hero.offsetTop + 24) {
       moveToSlide(hero);
     }
