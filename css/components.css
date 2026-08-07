@@ -1,0 +1,3 @@
+/* Shared UI components (buttons, form controls, cards).
+   Current component rules remain in pages/home.css to preserve the
+   exact visual cascade. Extract shared pieces here as new pages appear. */

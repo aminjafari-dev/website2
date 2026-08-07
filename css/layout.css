@@ -1,0 +1,4 @@
+/* Shared layout primitives.
+   Current page-specific layout still lives in pages/home.css so the
+   existing cascade and motion timing stay identical. Move shared nav /
+   stage / footer rules here when contact and projects pages land. */
