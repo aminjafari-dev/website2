@@ -8,6 +8,7 @@ const brand = document.querySelector(".brand");
 const problemSection = document.querySelector(".problem-section");
 const solutionSection = document.querySelector(".solution-section");
 const servicesSection = document.querySelector(".services-section");
+const contactSection = document.querySelector(".contact-section");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const originalWebsiteOrder = [...websiteStack.children];
 const originalPhoneOrder = [...phoneStack.children];
@@ -194,7 +195,9 @@ function animateScrollTo(top, duration) {
 }
 
 function presentableSections() {
-  return [problemSection, solutionSection, servicesSection].filter(Boolean);
+  return [problemSection, solutionSection, servicesSection, contactSection].filter(
+    Boolean,
+  );
 }
 
 function servicesScrollEnd() {
@@ -310,6 +313,7 @@ function handleSlideWheel(event) {
   const solutionTop = solutionSection.offsetTop;
   const servicesTop = servicesSection.offsetTop;
   const servicesEnd = servicesScrollEnd();
+  const contactTop = contactSection?.offsetTop ?? Number.POSITIVE_INFINITY;
   const currentTop = window.scrollY;
   const edge = Math.min(180, window.innerHeight * 0.2);
 
@@ -339,9 +343,32 @@ function handleSlideWheel(event) {
     return;
   }
 
-  // ↓ settled past the last service card
+  // ↓ end of services → contact
+  if (event.deltaY > 0 && currentTop < contactTop - 24) {
+    event.preventDefault();
+    moveToSlide(contactSection);
+    return;
+  }
+
+  // ↓ settled on contact
   if (event.deltaY > 0) {
     event.preventDefault();
+    return;
+  }
+
+  // ↑ contact → end of services stack
+  if (contactSection && currentTop > contactTop - edge) {
+    event.preventDefault();
+    slideLocked = true;
+    window.clearTimeout(slideTimer);
+    const duration = reduceMotion.matches ? 0 : 1150;
+    animateScrollTo(servicesEnd, duration).then(() => {
+      slideLocked = false;
+      updateServicesStack();
+    });
+    slideTimer = window.setTimeout(() => {
+      slideLocked = false;
+    }, duration + 80);
     return;
   }
 
@@ -392,6 +419,7 @@ window.addEventListener(
     const solutionTop = solutionSection.offsetTop;
     const servicesTop = servicesSection.offsetTop;
     const servicesEnd = servicesScrollEnd();
+    const contactTop = contactSection?.offsetTop ?? Number.POSITIVE_INFINITY;
     const edge = Math.min(180, window.innerHeight * 0.2);
     const y = window.scrollY;
 
@@ -404,6 +432,19 @@ window.addEventListener(
     } else if (distance > 45 && y < servicesEnd - 4) {
       // Inside the services stack — native touch scroll handles seating.
       return;
+    } else if (distance > 45 && y < contactTop - 24) {
+      moveToSlide(contactSection);
+    } else if (distance < -45 && contactSection && y > contactTop - edge) {
+      slideLocked = true;
+      window.clearTimeout(slideTimer);
+      const duration = reduceMotion.matches ? 0 : 1150;
+      animateScrollTo(servicesEnd, duration).then(() => {
+        slideLocked = false;
+        updateServicesStack();
+      });
+      slideTimer = window.setTimeout(() => {
+        slideLocked = false;
+      }, duration + 80);
     } else if (distance < -45 && y > servicesTop + edge) {
       return;
     } else if (distance < -45 && y > servicesTop - edge) {
@@ -543,3 +584,193 @@ function playReversedLoop(video) {
 document
   .querySelectorAll('video[data-playback="reverse"]')
   .forEach((video) => playReversedLoop(video));
+
+function buildContactDots() {
+  const field = document.querySelector("[data-contact-dots]");
+  if (!field || field.childElementCount) return;
+
+  const cols = 10;
+  const rows = 7;
+  const fragment = document.createDocumentFragment();
+
+  for (let i = 0; i < cols * rows; i += 1) {
+    fragment.append(document.createElement("i"));
+  }
+
+  field.append(fragment);
+}
+
+// Radiating dash field — each segment points toward the bottom-center focal point.
+function buildContactRays() {
+  const field = document.querySelector("[data-contact-rays]");
+  if (!field || field.childElementCount) return;
+
+  const cols = 9;
+  const rows = 4;
+  const fragment = document.createDocumentFragment();
+
+  for (let row = 0; row < rows; row += 1) {
+    for (let col = 0; col < cols; col += 1) {
+      const dash = document.createElement("i");
+      const dx = col - (cols - 1) / 2;
+      const dy = rows - row + 1.4;
+      const angle = (Math.atan2(dy, dx) * 180) / Math.PI;
+      dash.dataset.baseAngle = String(angle);
+      dash.style.setProperty("--a", `${angle}deg`);
+      fragment.append(dash);
+    }
+  }
+
+  field.append(fragment);
+}
+
+// Hover: particles keep shifting in place and changing angle near the cursor.
+function bindContactFieldMotion(field, options = {}) {
+  if (!field || reduceMotion.matches) return;
+
+  const items = [...field.children];
+  if (!items.length) return;
+
+  const {
+    push = 10,
+    angleSwing = 28,
+    settle = 0.14,
+    radius = 110,
+  } = options;
+
+  const state = items.map((el, index) => ({
+    el,
+    baseAngle: Number(el.dataset.baseAngle || 0),
+    phase: index * 0.73,
+    ox: 0,
+    oy: 0,
+    tx: 0,
+    ty: 0,
+    a: Number(el.dataset.baseAngle || 0),
+  }));
+
+  let pointerX = 0;
+  let pointerY = 0;
+  let active = false;
+  let rafId = 0;
+
+  const cacheOrigins = () => {
+    state.forEach((item) => {
+      const bounds = item.el.getBoundingClientRect();
+      item.ox = bounds.left + bounds.width / 2;
+      item.oy = bounds.top + bounds.height / 2;
+    });
+  };
+
+  const apply = (item) => {
+    item.el.style.setProperty("--tx", `${item.tx.toFixed(2)}px`);
+    item.el.style.setProperty("--ty", `${item.ty.toFixed(2)}px`);
+    item.el.style.setProperty("--a", `${item.a.toFixed(2)}deg`);
+  };
+
+  const tick = (now) => {
+    const t = now * 0.001;
+
+    state.forEach((item) => {
+      const dx = item.ox + item.tx - pointerX;
+      const dy = item.oy + item.ty - pointerY;
+      const dist = Math.hypot(dx, dy) || 1;
+      const influence = active ? Math.max(0, 1 - dist / radius) ** 1.35 : 0;
+
+      // Soft perpetual wobble while hovered; stronger kick near the cursor.
+      const wobbleX = Math.sin(t * 3.1 + item.phase) * (1.4 + influence * 5);
+      const wobbleY = Math.cos(t * 2.7 + item.phase * 1.3) * (1.4 + influence * 5);
+      const pushX = active ? (dx / dist) * push * influence : 0;
+      const pushY = active ? (dy / dist) * push * influence : 0;
+
+      const targetX = active ? pushX + wobbleX : 0;
+      const targetY = active ? pushY + wobbleY : 0;
+      const targetAngle = active
+        ? item.baseAngle +
+          Math.sin(t * 4.4 + item.phase) * (10 + angleSwing * influence) +
+          Math.cos(t * 3.2 + item.phase * 0.8) * (6 + angleSwing * 0.45 * influence)
+        : item.baseAngle;
+
+      const ease = active ? settle : 0.22;
+      item.tx += (targetX - item.tx) * ease;
+      item.ty += (targetY - item.ty) * ease;
+      item.a += (targetAngle - item.a) * ease;
+
+      if (!active && Math.abs(item.tx) < 0.04 && Math.abs(item.ty) < 0.04) {
+        item.tx = 0;
+        item.ty = 0;
+        item.a = item.baseAngle;
+      }
+
+      apply(item);
+    });
+
+    const stillMoving = state.some(
+      (item) =>
+        Math.abs(item.tx) > 0.04 ||
+        Math.abs(item.ty) > 0.04 ||
+        Math.abs(item.a - item.baseAngle) > 0.04,
+    );
+
+    if (active || stillMoving) {
+      rafId = requestAnimationFrame(tick);
+    } else {
+      rafId = 0;
+    }
+  };
+
+  const start = () => {
+    if (!rafId) rafId = requestAnimationFrame(tick);
+  };
+
+  field.addEventListener("pointerenter", (event) => {
+    active = true;
+    pointerX = event.clientX;
+    pointerY = event.clientY;
+    cacheOrigins();
+    start();
+  });
+
+  field.addEventListener("pointermove", (event) => {
+    pointerX = event.clientX;
+    pointerY = event.clientY;
+    if (!active) {
+      active = true;
+      cacheOrigins();
+      start();
+    }
+  });
+
+  field.addEventListener("pointerleave", () => {
+    active = false;
+    start();
+  });
+}
+
+buildContactDots();
+buildContactRays();
+
+const contactDotsField = document.querySelector("[data-contact-dots]");
+const contactRaysField = document.querySelector("[data-contact-rays]");
+
+bindContactFieldMotion(contactDotsField, {
+  push: 9,
+  angleSwing: 36,
+  settle: 0.16,
+  radius: 90,
+});
+
+bindContactFieldMotion(contactRaysField, {
+  push: 12,
+  angleSwing: 42,
+  settle: 0.13,
+  radius: 130,
+});
+
+document.querySelectorAll('a[href="#contact"]').forEach((link) => {
+  link.addEventListener("click", (event) => {
+    if (!contactSection) return;
+    event.preventDefault();
+    moveToSlide(contactSection);
+  });
+});
