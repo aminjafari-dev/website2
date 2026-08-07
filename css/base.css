@@ -1,0 +1,98 @@
+:root {
+  /* Foundations — Byto.Tech Palette 3 (Blue & Gold) */
+  --color-navy: #0f1e3f;
+  --color-steel: #213a56;
+  --color-gold: #cdaa80;
+  --color-bronze: #997953;
+  --color-offwhite: #f5f0e8;
+  --color-white: #ffffff;
+
+  /* Semantic — Dark mode defaults */
+  --bg-page: var(--color-navy);
+  --bg-surface: var(--color-steel);
+  --bg-elevated: #274563;
+  --text-primary: var(--color-offwhite);
+  --text-secondary: var(--color-gold);
+  --text-muted: rgba(245, 240, 232, 0.55);
+  --accent: var(--color-gold);
+  --accent-hover: var(--color-bronze);
+  --border: rgba(205, 170, 128, 0.12);
+  --border-strong: rgba(205, 170, 128, 0.30);
+  --focus-ring: rgba(205, 170, 128, 0.45);
+
+  /* Buttons */
+  --btn-primary-bg: var(--color-gold);
+  --btn-primary-text: var(--color-navy);
+  --btn-primary-hover: var(--color-bronze);
+  --btn-secondary-bg: transparent;
+  --btn-secondary-border: rgba(205, 170, 128, 0.30);
+  --btn-secondary-text: var(--color-gold);
+  --btn-dark-bg: var(--color-navy);
+  --btn-dark-text: var(--color-gold);
+  --btn-outline-border: var(--color-bronze);
+  --btn-outline-text: var(--color-bronze);
+
+  /* Legacy aliases mapped to palette */
+  --ink: var(--text-primary);
+  --muted: var(--text-muted);
+  --paper: var(--bg-surface);
+  --page: var(--bg-page);
+  --blue: var(--color-steel);
+  --pink: var(--color-bronze);
+  --orange: var(--color-gold);
+  --warn: var(--color-bronze);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Light mode */
+[data-theme="light"],
+.light {
+  --bg-page: var(--color-offwhite);
+  --bg-surface: var(--color-white);
+  --bg-elevated: var(--color-white);
+  --text-primary: var(--color-navy);
+  --text-secondary: var(--color-steel);
+  --text-muted: rgba(15, 30, 63, 0.55);
+  --accent: var(--color-gold);
+  --accent-hover: var(--color-bronze);
+  --border: rgba(15, 30, 63, 0.10);
+  --border-strong: var(--color-bronze);
+  --focus-ring: rgba(15, 30, 63, 0.25);
+
+  --btn-primary-bg: var(--color-gold);
+  --btn-primary-text: var(--color-navy);
+  --btn-primary-hover: var(--color-bronze);
+  --btn-dark-bg: var(--color-navy);
+  --btn-dark-text: var(--color-gold);
+  --btn-outline-border: var(--color-bronze);
+  --btn-outline-text: var(--color-bronze);
+
+  --ink: var(--text-primary);
+  --muted: var(--text-muted);
+  --paper: var(--bg-surface);
+  --page: var(--bg-page);
+  --blue: var(--color-steel);
+  --pink: var(--color-bronze);
+  --orange: var(--color-gold);
+  --warn: var(--color-bronze);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  /* Slide snaps are driven in JS; CSS smooth scroll fights those animations. */
+  scroll-behavior: auto;
+}
+
+
+body {
+  margin: 0;
+  min-width: 320px;
+  color: var(--ink);
+  background: var(--page);
+  font-family: "Manrope", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
