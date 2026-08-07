@@ -479,3 +479,67 @@ if ("IntersectionObserver" in window && !reduceMotion.matches) {
 } else {
   presentableSections().forEach((section) => section.classList.add("is-presented"));
 }
+
+// Shared lock clip is encoded locked → open. Scrub the solution seal
+// backwards so it still reads as closing, without a second asset.
+function playReversedLoop(video) {
+  if (!video || reduceMotion.matches) {
+    if (video?.readyState >= 1) video.currentTime = video.duration || 0;
+    else {
+      video?.addEventListener(
+        "loadedmetadata",
+        () => {
+          video.currentTime = video.duration || 0;
+        },
+        { once: true },
+      );
+    }
+    return;
+  }
+
+  const fps = 30;
+  const frameDuration = 1000 / fps;
+  let rafId = 0;
+  let lastTs = 0;
+  let seeking = false;
+
+  const stopNative = () => {
+    video.pause();
+    video.autoplay = false;
+    video.loop = false;
+  };
+
+  const step = (ts) => {
+    rafId = requestAnimationFrame(step);
+    if (document.hidden || seeking || !Number.isFinite(video.duration) || video.duration === 0) {
+      return;
+    }
+
+    if (!lastTs) lastTs = ts;
+    if (ts - lastTs < frameDuration) return;
+    lastTs = ts;
+
+    const next = video.currentTime - 1 / fps;
+    seeking = true;
+    video.currentTime = next <= 0.001 ? video.duration : next;
+  };
+
+  video.addEventListener("seeked", () => {
+    seeking = false;
+  });
+
+  const start = () => {
+    stopNative();
+    video.currentTime = video.duration;
+    lastTs = 0;
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(step);
+  };
+
+  if (video.readyState >= 1) start();
+  else video.addEventListener("loadedmetadata", start, { once: true });
+}
+
+document
+  .querySelectorAll('video[data-playback="reverse"]')
+  .forEach((video) => playReversedLoop(video));
