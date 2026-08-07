@@ -7,6 +7,7 @@ const phoneStack = document.querySelector(".phone-stack");
 const brand = document.querySelector(".brand");
 const problemSection = document.querySelector(".problem-section");
 const solutionSection = document.querySelector(".solution-section");
+const servicesSection = document.querySelector(".services-section");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const originalWebsiteOrder = [...websiteStack.children];
 const originalPhoneOrder = [...phoneStack.children];
@@ -192,6 +193,80 @@ function animateScrollTo(top, duration) {
   });
 }
 
+function presentableSections() {
+  return [problemSection, solutionSection, servicesSection].filter(Boolean);
+}
+
+function servicesScrollEnd() {
+  return Math.max(
+    0,
+    servicesSection.offsetTop + servicesSection.offsetHeight - window.innerHeight,
+  );
+}
+
+const serviceCards = [
+  ...(document.querySelectorAll("[data-services-stack] .service-card") ?? []),
+];
+const STACK_PEEK = 14; // px of previous card visible at the top, like the video
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function updateServicesStack() {
+  if (!servicesSection || !serviceCards.length) return;
+
+  const rect = servicesSection.getBoundingClientRect();
+  const total = servicesSection.offsetHeight - window.innerHeight;
+
+  if (reduceMotion.matches) {
+    serviceCards.forEach((card, index) => {
+      card.style.setProperty("--card-y", `${index * 12}px`);
+    });
+    return;
+  }
+
+  if (total <= 0) {
+    serviceCards.forEach((card, index) => {
+      card.style.setProperty("--card-y", `${index * STACK_PEEK}px`);
+    });
+    return;
+  }
+
+  const progress = clamp(-rect.top / total, 0, 1);
+  const last = serviceCards.length - 1;
+  const activeSegment = progress * last;
+
+  serviceCards.forEach((card, index) => {
+    if (index === 0) {
+      card.style.setProperty("--card-y", "0px");
+      return;
+    }
+
+    const seated = index * STACK_PEEK;
+    const cardHeight = card.offsetHeight || window.innerHeight * 0.78;
+    const waiting = cardHeight - 32;
+    const raw = activeSegment - (index - 1);
+
+    let y;
+    if (raw <= 0) {
+      // Only the immediate next card peeks; later cards stay fully below.
+      const nextUp = Math.floor(activeSegment) + 1;
+      y = index === nextUp ? waiting : window.innerHeight * 1.12;
+    } else if (raw >= 1) {
+      y = seated;
+    } else {
+      y = waiting + (seated - waiting) * raw;
+    }
+
+    card.style.setProperty("--card-y", `${y}px`);
+  });
+}
+
+window.addEventListener("scroll", updateServicesStack, { passive: true });
+window.addEventListener("resize", updateServicesStack);
+requestAnimationFrame(updateServicesStack);
+
 function moveToSlide(target) {
   if (!target || slideLocked) return;
 
@@ -199,8 +274,8 @@ function moveToSlide(target) {
   window.clearTimeout(slideTimer);
   cancelAnimationFrame(scrollAnim);
 
-  // Start the clip-rise as the scroll begins — identical to 1 → 2.
-  if (target === problemSection || target === solutionSection) {
+  // Start the clip-rise as the scroll begins — identical to 1 → 2 → 3.
+  if (presentableSections().includes(target)) {
     target.classList.add("is-presented");
   }
 
@@ -209,6 +284,7 @@ function moveToSlide(target) {
 
   animateScrollTo(top, duration).then(() => {
     slideLocked = false;
+    updateServicesStack();
   });
 
   // Safety unlock if the animation promise is interrupted.
@@ -229,6 +305,8 @@ function handleSlideWheel(event) {
   const heroTop = hero.offsetTop;
   const problemTop = problemSection.offsetTop;
   const solutionTop = solutionSection.offsetTop;
+  const servicesTop = servicesSection.offsetTop;
+  const servicesEnd = servicesScrollEnd();
   const currentTop = window.scrollY;
   const edge = Math.min(180, window.innerHeight * 0.2);
 
@@ -246,13 +324,37 @@ function handleSlideWheel(event) {
     return;
   }
 
-  // ↓ settled on approach: no further downward scroll
+  // ↓ approach → services
+  if (event.deltaY > 0 && currentTop < servicesTop - 24) {
+    event.preventDefault();
+    moveToSlide(servicesSection);
+    return;
+  }
+
+  // ↓ inside services: let sticky cards scroll and seat naturally
+  if (event.deltaY > 0 && currentTop < servicesEnd - 4) {
+    return;
+  }
+
+  // ↓ settled past the last service card
   if (event.deltaY > 0) {
     event.preventDefault();
     return;
   }
 
-  // ↑ approach → challenge (only when parked on / near the approach slide)
+  // ↑ mid-services stack: native scroll reveals the card underneath
+  if (currentTop > servicesTop + edge) {
+    return;
+  }
+
+  // ↑ top of services → approach
+  if (currentTop > servicesTop - edge) {
+    event.preventDefault();
+    moveToSlide(solutionSection);
+    return;
+  }
+
+  // ↑ approach → challenge
   if (currentTop > solutionTop - edge) {
     event.preventDefault();
     moveToSlide(problemSection);
@@ -285,19 +387,27 @@ window.addEventListener(
     const distance = touchStartY - touchEndY;
     const problemTop = problemSection.offsetTop;
     const solutionTop = solutionSection.offsetTop;
+    const servicesTop = servicesSection.offsetTop;
+    const servicesEnd = servicesScrollEnd();
     const edge = Math.min(180, window.innerHeight * 0.2);
+    const y = window.scrollY;
 
-    if (distance > 45 && window.scrollY < problemTop - 24) {
+    if (distance > 45 && y < problemTop - 24) {
       moveToSlide(problemSection);
-    } else if (distance > 45 && window.scrollY < solutionTop - 24) {
+    } else if (distance > 45 && y < solutionTop - 24) {
       moveToSlide(solutionSection);
-    } else if (distance < -45 && window.scrollY > solutionTop - edge) {
+    } else if (distance > 45 && y < servicesTop - 24) {
+      moveToSlide(servicesSection);
+    } else if (distance > 45 && y < servicesEnd - 4) {
+      // Inside the services stack — native touch scroll handles seating.
+      return;
+    } else if (distance < -45 && y > servicesTop + edge) {
+      return;
+    } else if (distance < -45 && y > servicesTop - edge) {
+      moveToSlide(solutionSection);
+    } else if (distance < -45 && y > solutionTop - edge) {
       moveToSlide(problemSection);
-    } else if (
-      distance < -45 &&
-      window.scrollY > hero.offsetTop + 24 &&
-      window.scrollY < problemTop + edge
-    ) {
+    } else if (distance < -45 && y > hero.offsetTop + 24 && y < problemTop + edge) {
       moveToSlide(hero);
     }
   },
@@ -307,7 +417,7 @@ window.addEventListener(
 function presentSlidesInView() {
   if (slideLocked) return;
 
-  [problemSection, solutionSection].forEach((section) => {
+  presentableSections().forEach((section) => {
     const bounds = section.getBoundingClientRect();
     if (bounds.top < window.innerHeight * 0.92 && bounds.bottom > 0) {
       section.classList.add("is-presented");
@@ -362,9 +472,7 @@ if ("IntersectionObserver" in window && !reduceMotion.matches) {
     { threshold: 0.01, rootMargin: "0px 0px -4% 0px" },
   );
 
-  slideObserver.observe(problemSection);
-  slideObserver.observe(solutionSection);
+  presentableSections().forEach((section) => slideObserver.observe(section));
 } else {
-  problemSection.classList.add("is-presented");
-  solutionSection.classList.add("is-presented");
+  presentableSections().forEach((section) => section.classList.add("is-presented"));
 }
