@@ -6,6 +6,7 @@ const websiteStack = document.querySelector(".website-stack");
 const phoneStack = document.querySelector(".phone-stack");
 const brand = document.querySelector(".brand");
 const problemSection = document.querySelector(".problem-section");
+const solutionSection = document.querySelector(".solution-section");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const originalWebsiteOrder = [...websiteStack.children];
 const originalPhoneOrder = [...phoneStack.children];
@@ -159,27 +160,67 @@ hero.addEventListener("pointermove", moveArtwork);
 hero.addEventListener("pointerleave", resetArtwork);
 brand.addEventListener("click", replayIntro);
 
+let scrollAnim = 0;
+
+function easeInOutCubic(t) {
+  return t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2;
+}
+
+// Browser smooth scrollIntoView gets cancelled mid-flight by trackpad wheel
+// events (even when we preventDefault). Drive the scroll ourselves so 2→3
+// can't stall halfway the way 1→2 never should.
+function animateScrollTo(top, duration) {
+  const from = window.scrollY;
+  const distance = top - from;
+  if (Math.abs(distance) < 1) return Promise.resolve();
+
+  const start = performance.now();
+  cancelAnimationFrame(scrollAnim);
+
+  return new Promise((resolve) => {
+    const tick = (now) => {
+      const t = Math.min(1, (now - start) / duration);
+      window.scrollTo({ top: from + distance * easeInOutCubic(t), behavior: "auto" });
+      if (t < 1) {
+        scrollAnim = requestAnimationFrame(tick);
+      } else {
+        window.scrollTo({ top, behavior: "auto" });
+        resolve();
+      }
+    };
+    scrollAnim = requestAnimationFrame(tick);
+  });
+}
+
 function moveToSlide(target) {
+  if (!target || slideLocked) return;
+
   slideLocked = true;
   window.clearTimeout(slideTimer);
+  cancelAnimationFrame(scrollAnim);
 
-  if (target === problemSection) {
-    problemSection.classList.add("is-presented");
+  // Start the clip-rise as the scroll begins — identical to 1 → 2.
+  if (target === problemSection || target === solutionSection) {
+    target.classList.add("is-presented");
   }
 
-  target.scrollIntoView({
-    behavior: reduceMotion.matches ? "auto" : "smooth",
-    block: "start",
+  const duration = reduceMotion.matches ? 0 : 1150;
+  const top = target.offsetTop;
+
+  animateScrollTo(top, duration).then(() => {
+    slideLocked = false;
   });
 
+  // Safety unlock if the animation promise is interrupted.
   slideTimer = window.setTimeout(() => {
     slideLocked = false;
-  }, reduceMotion.matches ? 100 : 1150);
+  }, duration + 80);
 }
 
 function handleSlideWheel(event) {
   if (Math.abs(event.deltaY) < 2) return;
 
+  // Always eat wheel during a snap so native scrolling can't fight it.
   if (slideLocked) {
     event.preventDefault();
     return;
@@ -187,19 +228,39 @@ function handleSlideWheel(event) {
 
   const heroTop = hero.offsetTop;
   const problemTop = problemSection.offsetTop;
+  const solutionTop = solutionSection.offsetTop;
   const currentTop = window.scrollY;
+  const edge = Math.min(180, window.innerHeight * 0.2);
 
+  // ↓ hero → challenge
   if (event.deltaY > 0 && currentTop < problemTop - 24) {
     event.preventDefault();
     moveToSlide(problemSection);
     return;
   }
 
-  const nearProblemStart =
-    currentTop > heroTop + 24 &&
-    currentTop < problemTop + Math.min(180, window.innerHeight * 0.2);
+  // ↓ challenge → approach
+  if (event.deltaY > 0 && currentTop < solutionTop - 24) {
+    event.preventDefault();
+    moveToSlide(solutionSection);
+    return;
+  }
 
-  if (event.deltaY < 0 && nearProblemStart) {
+  // ↓ settled on approach: no further downward scroll
+  if (event.deltaY > 0) {
+    event.preventDefault();
+    return;
+  }
+
+  // ↑ approach → challenge (only when parked on / near the approach slide)
+  if (currentTop > solutionTop - edge) {
+    event.preventDefault();
+    moveToSlide(problemSection);
+    return;
+  }
+
+  // ↑ challenge → hero
+  if (currentTop > heroTop + 24 && currentTop < problemTop + edge) {
     event.preventDefault();
     moveToSlide(hero);
   }
@@ -223,13 +284,19 @@ window.addEventListener(
     const touchEndY = event.changedTouches[0]?.clientY ?? touchStartY;
     const distance = touchStartY - touchEndY;
     const problemTop = problemSection.offsetTop;
+    const solutionTop = solutionSection.offsetTop;
+    const edge = Math.min(180, window.innerHeight * 0.2);
 
     if (distance > 45 && window.scrollY < problemTop - 24) {
+      moveToSlide(problemSection);
+    } else if (distance > 45 && window.scrollY < solutionTop - 24) {
+      moveToSlide(solutionSection);
+    } else if (distance < -45 && window.scrollY > solutionTop - edge) {
       moveToSlide(problemSection);
     } else if (
       distance < -45 &&
       window.scrollY > hero.offsetTop + 24 &&
-      window.scrollY < problemTop + window.innerHeight * 0.2
+      window.scrollY < problemTop + edge
     ) {
       moveToSlide(hero);
     }
@@ -237,15 +304,19 @@ window.addEventListener(
   { passive: true },
 );
 
-function ensureProblemIsVisible() {
-  const bounds = problemSection.getBoundingClientRect();
-  if (bounds.top < window.innerHeight * 0.92 && bounds.bottom > 0) {
-    problemSection.classList.add("is-presented");
-  }
+function presentSlidesInView() {
+  if (slideLocked) return;
+
+  [problemSection, solutionSection].forEach((section) => {
+    const bounds = section.getBoundingClientRect();
+    if (bounds.top < window.innerHeight * 0.92 && bounds.bottom > 0) {
+      section.classList.add("is-presented");
+    }
+  });
 }
 
-window.addEventListener("scroll", ensureProblemIsVisible, { passive: true });
-requestAnimationFrame(ensureProblemIsVisible);
+window.addEventListener("scroll", presentSlidesInView, { passive: true });
+requestAnimationFrame(presentSlidesInView);
 
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {
@@ -256,10 +327,33 @@ document.addEventListener("visibilitychange", () => {
   }
 });
 
-const revealItems = document.querySelectorAll(".scroll-reveal");
+const solutionGrid = document.querySelector(".solution-grid");
+
+if (solutionGrid) {
+  const solutionCards = [...solutionGrid.querySelectorAll(".solution-card")];
+  const defaultCard =
+    solutionGrid.querySelector(".solution-card[data-default-card]") ??
+    solutionCards[Math.floor(solutionCards.length / 2)];
+
+  const expandCard = (target) => {
+    solutionCards.forEach((card) => {
+      card.classList.toggle("is-active", card === target);
+    });
+  };
+
+  solutionCards.forEach((card) => {
+    card.addEventListener("pointerenter", () => expandCard(card));
+    card.addEventListener("focus", () => expandCard(card));
+  });
+
+  solutionGrid.addEventListener("pointerleave", () => expandCard(defaultCard));
+  solutionGrid.addEventListener("focusout", (event) => {
+    if (!solutionGrid.contains(event.relatedTarget)) expandCard(defaultCard);
+  });
+}
 
 if ("IntersectionObserver" in window && !reduceMotion.matches) {
-  const problemObserver = new IntersectionObserver(
+  const slideObserver = new IntersectionObserver(
     ([entry], observer) => {
       if (!entry.isIntersecting) return;
       entry.target.classList.add("is-presented");
@@ -268,24 +362,9 @@ if ("IntersectionObserver" in window && !reduceMotion.matches) {
     { threshold: 0.01, rootMargin: "0px 0px -4% 0px" },
   );
 
-  problemObserver.observe(problemSection);
+  slideObserver.observe(problemSection);
+  slideObserver.observe(solutionSection);
 } else {
   problemSection.classList.add("is-presented");
-}
-
-if ("IntersectionObserver" in window && !reduceMotion.matches) {
-  const revealObserver = new IntersectionObserver(
-    (entries, observer) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add("is-visible");
-        observer.unobserve(entry.target);
-      });
-    },
-    { threshold: 0.16 },
-  );
-
-  revealItems.forEach((item) => revealObserver.observe(item));
-} else {
-  revealItems.forEach((item) => item.classList.add("is-visible"));
+  solutionSection.classList.add("is-presented");
 }
