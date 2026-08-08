@@ -26,8 +26,28 @@ let introStarted = false;
 let introFinished = false;
 let introSafetyTimer;
 
+const SERVICE_KEYS = ["mobile", "website", "ai"];
+
 function setIntroState(name, enabled) {
   document.documentElement.classList.toggle(name, enabled);
+}
+
+function consumeReturnState() {
+  try {
+    const raw = sessionStorage.getItem("byto:return");
+    sessionStorage.removeItem("byto:return");
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+function rememberReturnState(state) {
+  try {
+    sessionStorage.setItem("byto:return", JSON.stringify(state));
+  } catch {
+    // Ignore quota / private-mode failures.
+  }
 }
 
 function endLogoIntro() {
@@ -36,6 +56,7 @@ function endLogoIntro() {
   window.clearTimeout(introSafetyTimer);
   setIntroState("intro-ready", false);
   setIntroState("intro-playing", false);
+  setIntroState("intro-skipped", false);
   logoIntro?.remove();
   startPortfolioCycle();
 }
@@ -49,13 +70,35 @@ function beginLogoIntro() {
   if (introStarted) return;
   introStarted = true;
 
-  window.scrollTo({ top: 0, behavior: "auto" });
+  const resume =
+    document.documentElement.classList.contains("intro-skipped") ||
+    window.location.hash === "#services" ||
+    window.location.hash === "#contact";
 
-  if (reduceMotion.matches) {
+  if (resume || reduceMotion.matches) {
+    const returnState =
+      consumeReturnState() ||
+      (window.location.hash === "#contact"
+        ? { section: "contact" }
+        : window.location.hash === "#services" || resume
+          ? { section: "services", serviceIndex: 0 }
+          : null);
+
     endLogoIntro();
+
+    if (resume && returnState) {
+      const apply = () => resumeFromReturn(returnState);
+      requestAnimationFrame(() => {
+        apply();
+        requestAnimationFrame(apply);
+      });
+    } else {
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }
     return;
   }
 
+  window.scrollTo({ top: 0, behavior: "auto" });
   requestAnimationFrame(() => setIntroState("intro-ready", true));
   introSafetyTimer = window.setTimeout(endLogoIntro, 4800);
 }
@@ -76,7 +119,14 @@ function whenPageIsPainted() {
 }
 
 stage.addEventListener("animationend", finishLogoIntro);
-whenPageIsPainted().then(beginLogoIntro);
+
+// Returning from a service/contact deep-link should land instantly — do not
+// wait on the first-visit intro timing (fonts/load race).
+if (document.documentElement.classList.contains("intro-skipped")) {
+  beginLogoIntro();
+} else {
+  whenPageIsPainted().then(beginLogoIntro);
+}
 
 function moveArtwork(event) {
   if (reduceMotion.matches) return;
@@ -219,6 +269,64 @@ const STACK_GAP = 36; // free space between the active card and the next peek
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
 }
+
+function servicesScrollForIndex(index) {
+  if (!servicesSection || !serviceCards.length) {
+    return servicesSection?.offsetTop ?? 0;
+  }
+
+  const total = Math.max(0, servicesSection.offsetHeight - window.innerHeight);
+  const last = serviceCards.length - 1;
+  const clamped = clamp(index, 0, last);
+  return servicesSection.offsetTop + (last <= 0 ? 0 : (clamped / last) * total);
+}
+
+function resumeFromReturn(state) {
+  const wantsContact = state?.section === "contact";
+  const wantsServices = state?.section === "services" || !wantsContact;
+
+  if (!wantsContact && !wantsServices) return;
+
+  presentableSections().forEach((section) => {
+    section.classList.add("is-presented");
+  });
+
+  let top = 0;
+  if (wantsContact && contactSection) {
+    top = contactSection.offsetTop;
+  } else if (servicesSection) {
+    const fromKey = Math.max(0, SERVICE_KEYS.indexOf(state?.service));
+    const serviceIndex =
+      typeof state?.serviceIndex === "number" ? state.serviceIndex : fromKey;
+    top = servicesScrollForIndex(serviceIndex);
+  }
+
+  window.scrollTo({ top, behavior: "auto" });
+  updateServicesStack();
+  presentSlidesInView();
+
+  if (location.hash === "#services" || location.hash === "#contact") {
+    history.replaceState(null, "", `${location.pathname}${location.search}`);
+  }
+}
+
+serviceCards.forEach((card) => {
+  card.addEventListener("click", () => {
+    let serviceIndex = 0;
+    try {
+      const url = new URL(card.href, window.location.href);
+      const key = url.searchParams.get("service");
+      serviceIndex = Math.max(0, SERVICE_KEYS.indexOf(key));
+    } catch {
+      serviceIndex = Number(card.style.getPropertyValue("--stack-i")) || 0;
+    }
+
+    rememberReturnState({
+      section: "services",
+      serviceIndex,
+    });
+  });
+});
 
 function updateServicesStack() {
   if (!servicesSection || !serviceCards.length) return;

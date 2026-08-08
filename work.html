@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Explore Byto.tech work across mobile apps, websites, and AI automation."
+    />
+    <title>Work — Byto.tech</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/pages/work.css" />
+  </head>
+  <body class="work-page">
+    <header class="work-nav">
+      <a class="work-brand" href="index.html" aria-label="Byto.tech home">
+        <img
+          class="work-brand-logo"
+          src="assets/images/brand/byto-logo.png"
+          alt=""
+          width="840"
+          height="396"
+          decoding="async"
+        />
+      </a>
+      <div class="work-nav-actions">
+        <a class="work-back" href="index.html#services">← Services</a>
+        <a class="work-contact" href="index.html#contact">Contact</a>
+      </div>
+    </header>
+
+    <main class="work-main" data-work-root>
+      <section class="work-track" data-work-track aria-labelledby="work-title">
+        <div class="work-pin">
+          <div class="work-left">
+            <p class="work-eyebrow" data-work-eyebrow>Selected work</p>
+            <h1 id="work-title" class="visually-hidden" data-work-title>
+              Our work
+            </h1>
+            <div class="work-wheel" data-work-wheel aria-label="Categories">
+              <div class="work-wheel-track" data-work-wheel-track></div>
+            </div>
+          </div>
+
+          <div class="work-right">
+            <div class="work-stage" data-work-stage aria-live="polite"></div>
+            <div class="work-meta">
+              <p class="work-meta-index" data-work-index>01 / 06</p>
+              <p class="work-meta-copy" data-work-copy></p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script src="js/work.js"></script>
+  </body>
+</html>

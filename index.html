@@ -10,7 +10,19 @@
     <title>Byto.tech — Secure AI-Powered Development</title>
     <script>
       if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-      document.documentElement.classList.add("intro-playing");
+      (function () {
+        var hash = location.hash;
+        var resume = false;
+        try {
+          resume =
+            hash === "#services" ||
+            hash === "#contact" ||
+            !!sessionStorage.getItem("byto:return");
+        } catch (e) {}
+        document.documentElement.classList.add(
+          resume ? "intro-skipped" : "intro-playing",
+        );
+      })();
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -146,7 +158,7 @@
               src="assets/images/projects/apps/Place_UI_into_iPhone_mockup_202608052024%20(2)-Photoroom.png"
             alt=""
           />
-          
+
           <img
             class="phone-shot shot-swap"
             src="assets/images/projects/apps/Place_UI_into_iPhone_mockup_202608052023-Photoroom.png"
@@ -189,7 +201,7 @@
               Start Your Project
               <span aria-hidden="true">↗</span>
             </a>
-            <a class="button button-secondary" href="#work">
+            <a class="button button-secondary" href="#services">
               View Our Work
               <span aria-hidden="true">→</span>
             </a>
@@ -340,7 +352,7 @@
         </div>
       </section>
 
-      <section class="services-section content-section" aria-labelledby="services-title">
+      <section id="services" class="services-section content-section" aria-labelledby="services-title">
         <div class="services-track">
           <div class="services-pin">
             <div class="services-panel">
@@ -350,7 +362,7 @@
               </header>
 
               <div class="services-stack" data-services-stack>
-                <article class="service-card" style="--stack-i: 0">
+                <a class="service-card" style="--stack-i: 0" href="work.html?service=mobile">
                   <div class="service-card-body">
                     <h3>
                       <span class="service-title-lead">Build</span>
@@ -368,10 +380,11 @@
                       Native-feel mobile products engineered for speed, clarity, and
                       security — from first prototype to production release.
                     </p>
+                    <span class="service-cta">Explore work <b aria-hidden="true">→</b></span>
                   </div>
-                </article>
+                </a>
 
-                <article class="service-card" style="--stack-i: 1">
+                <a class="service-card" style="--stack-i: 1" href="work.html?service=website">
                   <div class="service-card-body">
                     <h3>
                       <span class="service-title-lead">Build</span>
@@ -389,10 +402,11 @@
                       Fast, scalable websites and web platforms with the same
                       engineering rigor we apply to every production system.
                     </p>
+                    <span class="service-cta">Explore work <b aria-hidden="true">→</b></span>
                   </div>
-                </article>
+                </a>
 
-                <article class="service-card" style="--stack-i: 2">
+                <a class="service-card" style="--stack-i: 2" href="work.html?service=ai">
                   <div class="service-card-body">
                     <h3>
                       <span class="service-title-lead">AI</span>
@@ -410,8 +424,9 @@
                       Practical AI automation that removes busywork, connects your
                       tools, and stays under human control where it matters.
                     </p>
+                    <span class="service-cta">Explore work <b aria-hidden="true">→</b></span>
                   </div>
-                </article>
+                </a>
               </div>
             </div>
           </div>
