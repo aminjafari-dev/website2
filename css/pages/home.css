@@ -839,6 +839,15 @@ h1 {
   animation-delay: 1.14s;
 }
 
+.hero-definition {
+  width: min(100%, 640px);
+  margin: 12px 0 0;
+  color: rgba(245, 240, 232, 0.78);
+  font-size: clamp(12px, 0.98vw, 15px);
+  line-height: 1.65;
+  animation-delay: 1.2s;
+}
+
 .hero-actions {
   display: flex;
   gap: 12px;
@@ -3261,7 +3270,6 @@ h1 {
   border-radius: clamp(22px, 2.4vw, 36px);
   color: var(--ink);
   text-decoration: none;
-  cursor: pointer;
   background:
     linear-gradient(165deg, rgba(245, 240, 232, 0.04), transparent 42%),
     linear-gradient(155deg, #213a56, #0f1e3f 70%);
@@ -3358,9 +3366,15 @@ h1 {
   line-height: 1.65;
 }
 
-.service-card .service-cta {
+.service-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
   margin-top: 14px;
-  flex: none;
+}
+
+.service-links .service-cta {
+  margin-top: 0;
 }
 
 .service-star {

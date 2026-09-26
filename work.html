@@ -8,6 +8,24 @@
       content="Explore Byto.tech work across mobile apps, websites, and AI automation."
     />
     <title>Work — Byto.tech</title>
+    <link rel="canonical" href="https://byto.tech/work.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Byto.tech" />
+    <meta property="og:title" content="Work — Byto.tech" />
+    <meta
+      property="og:description"
+      content="Explore Byto.tech work across mobile apps, websites, and AI automation."
+    />
+    <meta property="og:url" content="https://byto.tech/work.html" />
+    <meta property="og:image" content="https://byto.tech/assets/images/brand/byto-logo.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Work — Byto.tech" />
+    <meta
+      name="twitter:description"
+      content="Explore Byto.tech work across mobile apps, websites, and AI automation."
+    />
+    <meta name="twitter:image" content="https://byto.tech/assets/images/brand/byto-logo.png" />
+    <link rel="icon" href="assets/images/brand/byto-logo.png" type="image/png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -18,6 +36,31 @@
     <link rel="stylesheet" href="css/layout.css" />
     <link rel="stylesheet" href="css/components.css" />
     <link rel="stylesheet" href="css/pages/work.css" />
+    <link rel="stylesheet" href="css/pages/content.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://byto.tech/#organization",
+            "name": "Byto.tech GmbH",
+            "url": "https://byto.tech",
+            "email": "hello@ajo.company",
+            "logo": "https://byto.tech/assets/images/brand/byto-logo.png"
+          },
+          {
+            "@type": "CollectionPage",
+            "@id": "https://byto.tech/work.html#webpage",
+            "url": "https://byto.tech/work.html",
+            "name": "Example surfaces",
+            "description": "Example product surfaces for mobile apps, websites, and AI automation. These are not named client engagements.",
+            "isPartOf": { "@id": "https://byto.tech/#website" },
+            "publisher": { "@id": "https://byto.tech/#organization" }
+          }
+        ]
+      }
+    </script>
   </head>
   <body class="work-page">
     <header class="work-nav">
@@ -25,7 +68,7 @@
         <img
           class="work-brand-logo"
           src="assets/images/brand/byto-logo.png"
-          alt=""
+          alt="Byto.tech"
           width="840"
           height="396"
           decoding="async"
@@ -41,10 +84,10 @@
       <section class="work-track" data-work-track aria-labelledby="work-title">
         <div class="work-pin">
           <div class="work-left">
-            <p class="work-eyebrow" data-work-eyebrow>Selected work</p>
-            <h1 id="work-title" class="visually-hidden" data-work-title>
-              Our work
-            </h1>
+            <div class="work-heading">
+              <p class="work-eyebrow" data-work-eyebrow>Selected work</p>
+              <h1 id="work-title" class="work-title" data-work-title>Mobile Application</h1>
+            </div>
             <div class="work-wheel" data-work-wheel aria-label="Categories">
               <div class="work-wheel-track" data-work-wheel-track></div>
             </div>
@@ -54,12 +97,114 @@
             <div class="work-stage" data-work-stage aria-live="polite"></div>
             <div class="work-meta">
               <p class="work-meta-index" data-work-index>01 / 06</p>
-              <p class="work-meta-copy" data-work-copy></p>
+              <p class="work-meta-copy" data-work-copy>
+                Care workflows that feel calm, clear, and production-ready on every device.
+              </p>
             </div>
           </div>
         </div>
       </section>
+
+      <section class="work-index" aria-labelledby="work-index-title">
+        <h2 id="work-index-title">Example surfaces</h2>
+        <p>
+          These screens and layouts are example product surfaces. They are
+          not named client engagements, and they do not report a measured
+          result. The interactive view above starts on mobile applications.
+        </p>
+
+        <h3>Mobile Application</h3>
+        <ul>
+          <li>
+            <strong>Health.</strong>
+            Care workflows that feel calm, clear, and production-ready on every device.
+          </li>
+          <li>
+            <strong>Fitness.</strong>
+            Training products engineered for daily habit loops — not just first-day dazzle.
+          </li>
+          <li>
+            <strong>Finance.</strong>
+            Money surfaces with the clarity and hardening customers expect from day one.
+          </li>
+          <li>
+            <strong>Trading.</strong>
+            Fast-moving market UIs kept readable under pressure and safe under load.
+          </li>
+          <li>
+            <strong>Reports.</strong>
+            Operational dashboards that turn dense data into decisions you can trust.
+          </li>
+          <li>
+            <strong>Security.</strong>
+            Sensitive flows designed with threat modeling baked into the product DNA.
+          </li>
+        </ul>
+
+        <h3>Website</h3>
+        <ul>
+          <li>
+            <strong>Estate.</strong>
+            Property platforms that feel premium on first paint and stay fast on return visits.
+          </li>
+          <li>
+            <strong>Tennis.</strong>
+            Sports and membership sites with crisp storytelling and conversion-ready paths.
+          </li>
+          <li>
+            <strong>Studio.</strong>
+            Creative brand sites where motion, type, and performance stay in the same room.
+          </li>
+          <li>
+            <strong>Audio.</strong>
+            Media-first experiences tuned for immersion without sacrificing load time.
+          </li>
+        </ul>
+
+        <h3>AI Automation</h3>
+        <ul>
+          <li>
+            <strong>Workflows.</strong>
+            End-to-end automation that removes busywork while keeping humans in the loop.
+          </li>
+          <li>
+            <strong>Agents.</strong>
+            Task agents that act with guardrails — useful in production, not just demos.
+          </li>
+          <li>
+            <strong>Integrations.</strong>
+            Toolchains stitched together so data and actions move without fragile glue.
+          </li>
+          <li>
+            <strong>LLM.</strong>
+            Language systems shaped around your domain, policies, and failure modes.
+          </li>
+          <li>
+            <strong>Ops.</strong>
+            Monitoring, handoff, and recovery paths so automation stays operable at scale.
+          </li>
+        </ul>
+        <p>
+          Read the service pages for
+          <a href="services/mobile.html">mobile</a>,
+          <a href="services/websites.html">websites</a>, and
+          <a href="services/ai-automation.html">AI automation</a>.
+        </p>
+      </section>
     </main>
+
+    <footer class="site-footer">
+      <div class="site-footer-bar">
+        <nav aria-label="Footer">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="faq.html">FAQ</a>
+          <a href="impressum.html">Impressum</a>
+          <a href="privacy.html">Privacy</a>
+        </nav>
+      </div>
+      <p>Byto.tech GmbH · Example surfaces, not client results.</p>
+    </footer>
 
     <script src="js/main.js"></script>
     <script src="js/work.js"></script>

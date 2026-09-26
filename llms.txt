@@ -1,0 +1,20 @@
+# Byto.tech
+
+> Byto.tech GmbH builds mobile apps, websites, and AI automation in Yerevan and Mülheim, and reviews that work for security. Enquiries: hello@ajo.company.
+
+Byto.tech GmbH is the legal company (Amtsgericht Duisburg, HRB 40364, registered 13 April 2026). The registered office is Großenbaumer Str. 143a, 45481 Mülheim an der Ruhr, Germany. A second office is at Leningradyan 4, Yerevan, Armenia. hello@ajo.company is the inbox. ajo.company GmbH is a separate company at the same Mülheim address.
+
+## Docs
+
+- [Home](https://byto.tech/): What the studio does, the three services, both offices, and how to get in touch.
+- [About](https://byto.tech/about.html): Legal identity, managing director, offices, and the ajo.company contact relationship.
+- [Mobile applications](https://byto.tech/services/mobile.html): How Byto.tech builds and reviews iOS, Android, and cross-platform apps.
+- [Websites](https://byto.tech/services/websites.html): How Byto.tech builds marketing sites, web apps, and e-commerce.
+- [AI automation](https://byto.tech/services/ai-automation.html): Workflows, agents, and integrations with a person still in control.
+- [Example surfaces](https://byto.tech/work.html): Interface examples. These are not named client engagements and do not report measured results.
+- [FAQ](https://byto.tech/faq.html): Engagement, offices, email, and how AI is used alongside security review.
+
+## Optional
+
+- [Impressum](https://byto.tech/impressum.html): German legal notice for Byto.tech GmbH.
+- [Privacy](https://byto.tech/privacy.html): What this static site sends to Google Fonts and messaging links. No analytics form is collected by the site itself.

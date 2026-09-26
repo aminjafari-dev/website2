@@ -1,0 +1,37 @@
+User-agent: *
+Allow: /
+Disallow: /GEO-OFFSITE.md
+
+User-agent: Googlebot
+Allow: /
+Disallow: /GEO-OFFSITE.md
+
+User-agent: Bingbot
+Allow: /
+Disallow: /GEO-OFFSITE.md
+
+User-agent: GPTBot
+Allow: /
+Disallow: /GEO-OFFSITE.md
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /GEO-OFFSITE.md
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /GEO-OFFSITE.md
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /GEO-OFFSITE.md
+
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /GEO-OFFSITE.md
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /GEO-OFFSITE.md
+
+Sitemap: https://byto.tech/sitemap.xml
